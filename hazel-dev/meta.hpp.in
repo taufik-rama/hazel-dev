@@ -1,0 +1,4 @@
+#pragma once
+
+#define HAZEL_NAME "@CMAKE_PROJECT_NAME@"
+#define HAZEL_VERSION "v@CMAKE_PROJECT_VERSION@"
