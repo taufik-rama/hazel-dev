@@ -1,8 +1,6 @@
 #pragma once
 
-#include <sstream>
-
-#include <event/event.hpp>
+#include <hazel/event/event.hpp>
 
 namespace hazel::event
 {

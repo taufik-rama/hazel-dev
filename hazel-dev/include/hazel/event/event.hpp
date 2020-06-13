@@ -1,9 +1,6 @@
 #pragma once
 
-#include <functional>
-#include <string>
-
-#include <core.hpp>
+#include <hazel/core.hpp>
 
 #define EVENT_TYPE_METHODS(type)                                                                \
     static EventType get_static_event_type() { return EventType::type; }                        \

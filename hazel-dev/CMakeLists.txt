@@ -10,7 +10,13 @@ project(HazelDev VERSION 0.0.1)
 
 add_library(hazel-dev SHARED src/application.cpp src/entrypoint.cpp src/logger.cpp)
 
-configure_file(meta.hpp.in ${CMAKE_SOURCE_DIR}/include/meta.hpp)
+configure_file(meta.hpp.in ${CMAKE_SOURCE_DIR}/include/hazel/meta.hpp)
+
+target_precompile_headers(hazel-dev 
+    PUBLIC
+        include/hazel-pch.hpp
+        include/spdlog-pch.hpp
+)
 
 target_include_directories(hazel-dev PRIVATE include/ vendor/spdlog/include/)
 

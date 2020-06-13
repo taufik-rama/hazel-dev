@@ -1,6 +1,4 @@
-#include <event/window.hpp>
-#include <application.hpp>
-#include <logger.hpp>
+#include <hazel/application.hpp>
 
 namespace hazel
 {

@@ -1,4 +1,4 @@
-#include <entrypoint.hpp>
+#include <hazel/entrypoint.hpp>
 
 int main(/* int arc, char **argv */)
 {
