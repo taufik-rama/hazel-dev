@@ -3,9 +3,12 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
+// User-defined type formatter
+#include <spdlog/fmt/ostr.h>
+
 namespace hazel
 {
-    class logger
+    class Logger
     {
     public:
         static void init();
@@ -25,33 +28,33 @@ namespace hazel
 #define HAZEL_LOG_FORMAT(fmt) "[{} {}:{}] " fmt
 
 #define HAZEL_DEV_LOG_TRACE(fmt, ...)         \
-    ::hazel::logger::get_dev_logger()->trace( \
+    ::hazel::Logger::get_dev_logger()->trace( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 #define HAZEL_DEV_LOG_INFO(fmt, ...)         \
-    ::hazel::logger::get_dev_logger()->info( \
+    ::hazel::Logger::get_dev_logger()->info( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 #define HAZEL_DEV_LOG_WARN(fmt, ...)         \
-    ::hazel::logger::get_dev_logger()->warn( \
+    ::hazel::Logger::get_dev_logger()->warn( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 #define HAZEL_DEV_LOG_ERROR(fmt, ...)         \
-    ::hazel::logger::get_dev_logger()->error( \
+    ::hazel::Logger::get_dev_logger()->error( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 #define HAZEL_DEV_LOG_FATAL(fmt, ...)         \
-    ::hazel::logger::get_dev_logger()->fatal( \
+    ::hazel::Logger::get_dev_logger()->fatal( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 
 #define HAZEL_CLIENT_LOG_TRACE(fmt, ...)         \
-    ::hazel::logger::get_client_logger()->trace( \
+    ::hazel::Logger::get_client_logger()->trace( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 #define HAZEL_CLIENT_LOG_INFO(fmt, ...)         \
-    ::hazel::logger::get_client_logger()->info( \
+    ::hazel::Logger::get_client_logger()->info( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 #define HAZEL_CLIENT_LOG_WARN(fmt, ...)         \
-    ::hazel::logger::get_client_logger()->warn( \
+    ::hazel::Logger::get_client_logger()->warn( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 #define HAZEL_CLIENT_LOG_ERROR(fmt, ...)         \
-    ::hazel::logger::get_client_logger()->error( \
+    ::hazel::Logger::get_client_logger()->error( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 #define HAZEL_CLIENT_LOG_FATAL(fmt, ...)         \
-    ::hazel::logger::get_client_logger()->fatal( \
+    ::hazel::Logger::get_client_logger()->fatal( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)

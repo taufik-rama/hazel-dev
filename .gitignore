@@ -1,8 +1,4 @@
-Makefile
-
-hazel-dev/Makefile
-hazel-dev/vendor/
+shazel-dev/vendor/
 hazel-dev/build/
 
-sandbox/Makefile
 sandbox/build/
