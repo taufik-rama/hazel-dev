@@ -38,11 +38,11 @@ namespace hazel::event
     enum class EventTypeCategory
     {
         NONE = 0,
-        WINDOW = BIT(0),
-        APP = BIT(1),
-        INPUT = BIT(2),
-        KEY = BIT(3),
-        MOUSE = BIT(4)
+        WINDOW = SHIFT(0),
+        APP = SHIFT(1),
+        INPUT = SHIFT(2),
+        KEY = SHIFT(3),
+        MOUSE = SHIFT(4)
     };
 
     class Event
@@ -63,10 +63,7 @@ namespace hazel::event
             return (static_cast<unsigned int>(category) & get_event_type_categories());
         }
 
-        template<typename OStream>
-        friend OStream &operator<<(OStream &os, const Event &e) {
-            return os << e.to_string();
-        }
+        FORMAT_TO_STRING(const Event &)
 
     protected:
         bool handled = false;
@@ -75,18 +72,19 @@ namespace hazel::event
     class EventDispatcher
     {
         template <typename T>
-        using event_fn = std::function<bool(T &)>;
+        using EventFn = std::function<bool(T &)>;
 
     public:
-        EventDispatcher(Event &event) : event(event) {}
+        EventDispatcher(Event &e) : event(e) {}
+
+        virtual ~EventDispatcher() {}
 
         template <typename T>
-        bool dispatch(event_fn<T> fn)
+        bool dispatch(EventFn<T> fn)
         {
-            if (this->event.get_event_type() == T::GetStaticType())
+            if (this->event.get_event_type() == T::get_static_event_type())
             {
                 this->event.handled = fn(*(T *)(&this->event));
-                // this->event.handled = fn(7);
                 return true;
             }
             return false;
@@ -95,9 +93,4 @@ namespace hazel::event
     private:
         Event &event;
     };
-
-    // std::ostream &operator<<(std::ostream &os, Event &e)
-    // {
-    //     return os << e.to_string();
-    // }
 } // namespace hazel::event

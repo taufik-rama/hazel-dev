@@ -22,6 +22,13 @@ namespace hazel
 
 } // namespace hazel
 
+#define FORMAT_TO_STRING(type)                      \
+    template <typename OStream>                     \
+    friend OStream &operator<<(OStream &os, type e) \
+    {                                               \
+        return os << e.to_string();                 \
+    }
+
 #define HAZEL_LOG_FORMAT(fmt) "[{} {}:{}] " fmt
 
 #define HAZEL_DEV_LOG_TRACE(fmt, ...)         \

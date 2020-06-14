@@ -1,7 +1,7 @@
 #pragma once
 
 #include <hazel/core.hpp>
-#include <hazel/logger.hpp>
+#include <hazel/window.hpp>
 
 #include <hazel/event/window.hpp>
 
@@ -15,6 +15,15 @@ namespace hazel
         virtual ~Application();
 
         void Run();
+
+        void event_callback(hazel::event::Event &);
+
+    private:
+        std::unique_ptr<Window> window;
+
+        bool running;
+
+        bool window_close_event_callback(hazel::event::Event &);
     };
 
     Application *create_application();

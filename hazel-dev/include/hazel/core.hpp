@@ -1,5 +1,7 @@
 #pragma once
 
-#include <hazel-pch.hpp>
+#include <hazel/logger.hpp>
 
-#define BIT(x) (1 << x)
+#include <std-pch.hpp>
+
+#define SHIFT(x) (1 << x)

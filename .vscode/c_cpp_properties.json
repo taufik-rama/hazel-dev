@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/hazel-dev/include",
+                "${workspaceFolder}/hazel-dev/vendor/glfw/include",
                 "${workspaceFolder}/hazel-dev/vendor/spdlog/include"
             ],
             "defines": [],
