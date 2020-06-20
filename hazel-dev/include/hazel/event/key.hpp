@@ -11,7 +11,7 @@ namespace hazel::event
 
         virtual ~KeyEvent() {}
 
-        int get_key_code() const { return this->key_code; }
+        unsigned int get_key_code() const { return this->key_code; }
 
         EVENT_TYPE_CATEGORY_METHODS(
             EventTypeCategorySet2(
@@ -19,15 +19,15 @@ namespace hazel::event
                 EventTypeCategory::KEY))
 
     protected:
-        int key_code;
+        unsigned int key_code;
 
-        KeyEvent(int key_code) : key_code(key_code) {}
+        KeyEvent(unsigned int key_code) : key_code(key_code) {}
     };
 
     class KeyPressEvent : public KeyEvent
     {
     public:
-        KeyPressEvent(int key_code, int repeat_count) : KeyEvent(key_code), repeat_count(repeat_count) {}
+        KeyPressEvent(unsigned int key_code, int repeat_count) : KeyEvent(key_code), repeat_count(repeat_count) {}
 
         virtual ~KeyPressEvent() {}
 
@@ -49,7 +49,7 @@ namespace hazel::event
     class KeyReleaseEvent : public KeyEvent
     {
     public:
-        KeyReleaseEvent(int key_code) : key_code(key_code) {}
+        KeyReleaseEvent(unsigned int key_code) : KeyEvent(key_code) {}
 
         virtual ~KeyReleaseEvent() {}
 
@@ -61,8 +61,22 @@ namespace hazel::event
         }
 
         EVENT_TYPE_METHODS(KEY_RELEASE)
+    };
 
-    private:
-        int key_code;
+    class KeyTypeEvent : public KeyEvent
+    {
+    public:
+        KeyTypeEvent(unsigned int key_code) : KeyEvent(key_code) {}
+
+        virtual ~KeyTypeEvent() {}
+
+        std::string to_string() const override
+        {
+            std::stringstream ss;
+            ss << "KeyTypeEvent: " << this->key_code;
+            return ss.str();
+        }
+
+        EVENT_TYPE_METHODS(KEY_TYPE)
     };
 } // namespace hazel::event

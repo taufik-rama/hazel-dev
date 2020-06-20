@@ -4,7 +4,7 @@ namespace hazel
 {
     static bool is_glfw_initialized = false;
 
-    Window *Window::Create(const WindowProps &props)
+    Window *Window::create(const WindowProps &props)
     {
         return new hazel::platform::linux::Window(props);
     }
@@ -48,6 +48,8 @@ namespace hazel::platform::linux
         glfwSetWindowUserPointer(this->window, &this->window_data);
         this->set_vsync(true);
 
+        assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress));
+
         // GLFW callbacks
         glfwSetWindowSizeCallback(this->window, [](GLFWwindow *window, int width, int height) {
             WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
@@ -87,6 +89,12 @@ namespace hazel::platform::linux
                 break;
             }
             }
+        });
+
+        glfwSetCharCallback(this->window, [](GLFWwindow *window, unsigned int codepoint) {
+            WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
+            hazel::event::KeyTypeEvent e(codepoint);
+            data.event_callback(e);
         });
 
         glfwSetMouseButtonCallback(this->window, [](GLFWwindow *window, int button, int action, int) {

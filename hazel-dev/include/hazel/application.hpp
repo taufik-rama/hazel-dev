@@ -1,9 +1,10 @@
 #pragma once
 
+#include <hazel/event/window.hpp>
+#include <hazel/layer/collection.hpp>
+#include <hazel/layer/layer.hpp>
 #include <hazel/core.hpp>
 #include <hazel/window.hpp>
-
-#include <hazel/event/window.hpp>
 
 namespace hazel
 {
@@ -14,16 +15,24 @@ namespace hazel
 
         virtual ~Application();
 
-        void Run();
+        void run();
 
         void event_callback(hazel::event::Event &);
 
+        void add_layer(hazel::layer::Layer *);
+
+        void add_layer_overlay(hazel::layer::Layer *);
+
+        static Application *get_application() { return instance; }
+
+        Window &get_window() { return *this->window; };
+
     private:
+        hazel::layer::Collection layers;
         std::unique_ptr<Window> window;
-
         bool running;
-
         bool window_close_event_callback(hazel::event::Event &);
+        static Application *instance;
     };
 
     Application *create_application();

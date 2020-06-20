@@ -14,6 +14,8 @@
 #define EventTypeCategorySet2(a, b) static_cast<unsigned int>(a) | static_cast<unsigned int>(b)
 #define EventTypeCategorySet3(a, b, c) static_cast<unsigned int>(a) | static_cast<unsigned int>(b) | static_cast<unsigned int>(c)
 
+#define EVENT_BIND_METHOD_1(x) std::bind(&x, this, std::placeholders::_1)
+
 namespace hazel::event
 {
     enum class EventType
@@ -29,6 +31,7 @@ namespace hazel::event
         APP_RENDER,
         KEY_PRESS,
         KEY_RELEASE,
+        KEY_TYPE,
         MOUSE_PRESS,
         MOUSE_RELEASE,
         MOUSE_MOVE,
@@ -62,6 +65,8 @@ namespace hazel::event
         {
             return (static_cast<unsigned int>(category) & get_event_type_categories());
         }
+
+        bool is_handled() const { return this->handled; }
 
         FORMAT_TO_STRING(const Event &)
 

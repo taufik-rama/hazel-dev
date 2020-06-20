@@ -1,13 +1,17 @@
 #include <hazel/application.hpp>
 
 // Temporary, glClearColor
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace hazel
 {
+    Application *Application::instance = nullptr;
+
     Application::Application()
     {
-        this->window = std::unique_ptr<Window>(Window::Create());
+        assert(!Application::instance);
+        Application::instance = this;
+        this->window = std::unique_ptr<Window>(Window::create());
         this->window->set_event_callback(std::bind(&Application::event_callback, this, std::placeholders::_1));
     }
 
@@ -16,8 +20,18 @@ namespace hazel
     void Application::event_callback(hazel::event::Event &e)
     {
         hazel::event::EventDispatcher dispatcher(e);
-        dispatcher.dispatch<hazel::event::WindowCloseEvent>(std::bind(&Application::window_close_event_callback, this, std::placeholders::_1));
-        HAZEL_DEV_LOG_TRACE("{}", e);
+        dispatcher.dispatch<hazel::event::WindowCloseEvent>(EVENT_BIND_METHOD_1(Application::window_close_event_callback));
+
+        // Handle for each layers
+        for (auto it = this->layers.end(); it != this->layers.begin();)
+        {
+            --it;
+            (*it)->on_event(e);
+            if (e.is_handled())
+            {
+                break;
+            }
+        }
     }
 
     bool Application::window_close_event_callback(hazel::event::Event &)
@@ -26,13 +40,31 @@ namespace hazel
         return true;
     }
 
-    void Application::Run()
+    void Application::add_layer(hazel::layer::Layer *layer)
+    {
+        this->layers.add(layer);
+        layer->on_attach();
+    }
+
+    void Application::add_layer_overlay(hazel::layer::Layer *layer)
+    {
+        this->layers.add_overlay(layer);
+        layer->on_attach();
+    }
+
+    void Application::run()
     {
         this->running = true;
         while (this->running)
         {
             glClearColor(0.5, 0.5, 1, 1);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            for (auto layer : this->layers)
+            {
+                layer->on_update();
+            }
+
             this->window->on_update();
         }
     }

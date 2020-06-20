@@ -4,11 +4,15 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
+                "${workspaceFolder}/glad/include",
                 "${workspaceFolder}/hazel-dev/include",
+                "${workspaceFolder}/imgui",
                 "${workspaceFolder}/hazel-dev/vendor/glfw/include",
                 "${workspaceFolder}/hazel-dev/vendor/spdlog/include"
             ],
-            "defines": [],
+            "defines": [
+                "GLFW_INCLUDE_NONE"
+            ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",

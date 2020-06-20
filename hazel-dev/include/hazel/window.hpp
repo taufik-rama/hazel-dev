@@ -1,7 +1,7 @@
 #pragma once
 
-#include <hazel/core.hpp>
 #include <hazel/event/event.hpp>
+#include <hazel/core.hpp>
 
 namespace hazel
 {
@@ -39,6 +39,6 @@ namespace hazel
 
         virtual bool get_vsync() const = 0;
 
-        static Window *Create(const WindowProps &props = WindowProps());
+        static Window *create(const WindowProps &props = WindowProps());
     };
 } // namespace hazel

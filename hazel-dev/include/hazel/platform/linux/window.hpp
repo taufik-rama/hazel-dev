@@ -1,12 +1,12 @@
 #pragma once
 
-#include <hazel/core.hpp>
-#include <hazel/window.hpp>
-
 #include <hazel/event/key.hpp>
 #include <hazel/event/mouse.hpp>
 #include <hazel/event/window.hpp>
+#include <hazel/core.hpp>
+#include <hazel/window.hpp>
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace hazel::platform::linux

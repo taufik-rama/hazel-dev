@@ -1,7 +1,9 @@
 [submodule "hazel-dev/vendor/spdlog"]
 	path = hazel-dev/vendor/spdlog
 	url = https://github.com/gabime/spdlog
-
 [submodule "hazel-dev/vendor/glfw"]
 	path = hazel-dev/vendor/glfw
 	url = https://github.com/glfw/glfw
+[submodule "imgui"]
+	path = imgui
+	url = https://github.com/ocornut/imgui
