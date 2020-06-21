@@ -29,6 +29,10 @@ namespace hazel::platform::linux
 
     void Window::init(const hazel::WindowProps &props)
     {
+        // Since input are defined on different namespace score, we cannot
+        // inline its value
+        hazel::Input::set_instance(new Input());
+
         this->window_data.title = props.title;
         this->window_data.width = props.width;
         this->window_data.height = props.height;

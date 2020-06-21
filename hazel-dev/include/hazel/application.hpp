@@ -1,5 +1,6 @@
 #pragma once
 
+#include <hazel/input/input.hpp>
 #include <hazel/event/window.hpp>
 #include <hazel/layer/collection.hpp>
 #include <hazel/layer/layer.hpp>

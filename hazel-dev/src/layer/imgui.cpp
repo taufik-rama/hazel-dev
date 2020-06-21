@@ -1,8 +1,5 @@
 #include "hazel/layer/imgui.hpp"
 
-// Temporary, glClearColor
-#include <glad/glad.h>
-
 namespace hazel::layer
 {
     ImGui::ImGui() : Layer("Layer::ImGui") {}

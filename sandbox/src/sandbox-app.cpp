@@ -7,14 +7,18 @@ class ExampleLayer : public hazel::layer::Layer
 public:
     ExampleLayer() : hazel::layer::Layer("Sandbox Example Layer") {}
 
-    void on_update() override
-    {
-        // HAZEL_CLIENT_LOG_TRACE("ExampleLayer on_update", "");
-    }
+    void on_update() override {}
 
     void on_event(hazel::event::Event &e) override
     {
-        HAZEL_CLIENT_LOG_TRACE("ExampleLayer on_event: {}", e);
+        if (hazel::Input::is_key_pressed(HAZEL_KEY_TAB))
+        {
+            HAZEL_CLIENT_LOG_TRACE("Tab key is pressed", "");
+        }
+        else
+        {
+            HAZEL_CLIENT_LOG_TRACE("ExampleLayer on_event: {}", e);
+        }
     }
 };
 

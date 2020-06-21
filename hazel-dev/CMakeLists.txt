@@ -9,8 +9,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(HazelDev VERSION 0.0.1)
 
 add_library(hazel-dev SHARED 
+    "src/input/input.cpp"
     "src/layer/collection.cpp"
     "src/layer/imgui.cpp"
+    "src/platform/linux/input.cpp"
     "src/platform/linux/window.cpp"
     "src/application.cpp"
     "src/entrypoint.cpp"
@@ -30,8 +32,9 @@ target_include_directories(hazel-dev
         "include/"
         "vendor/glfw/include/"
         "vendor/spdlog/include/"
+        "../glm/"
         "../glad/include/"
-        "../imgui"
+        "../imgui/"
 )
 
 find_library(GLFW_LIB

@@ -17,6 +17,7 @@ target_include_directories(sandbox
         "../hazel-dev/include/"
         "../hazel-dev/vendor/glfw/include/"
         "../hazel-dev/vendor/spdlog/include/"
+        "../glm/"
         "../glad/include/"
         "../imgui"
 )

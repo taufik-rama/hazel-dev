@@ -3,6 +3,8 @@
 #include <hazel/event/event.hpp>
 #include <hazel/core.hpp>
 
+// ::TODO:: Improve native window return type
+
 namespace hazel
 {
     class WindowProps
@@ -40,5 +42,7 @@ namespace hazel
         virtual bool get_vsync() const = 0;
 
         static Window *create(const WindowProps &props = WindowProps());
+
+        virtual void* get_native_window() const = 0;
     };
 } // namespace hazel

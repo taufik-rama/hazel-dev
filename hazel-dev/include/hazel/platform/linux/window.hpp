@@ -1,8 +1,10 @@
 #pragma once
 
+#include <hazel/input/input.hpp>
 #include <hazel/event/key.hpp>
 #include <hazel/event/mouse.hpp>
 #include <hazel/event/window.hpp>
+#include <hazel/platform/linux/input.hpp>
 #include <hazel/core.hpp>
 #include <hazel/window.hpp>
 
@@ -29,6 +31,8 @@ namespace hazel::platform::linux
         virtual void set_vsync(bool) override;
 
         virtual bool get_vsync() const override;
+
+        virtual void* get_native_window() const override { return this->window; };
 
     private:
         GLFWwindow *window;
