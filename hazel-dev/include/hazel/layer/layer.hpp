@@ -20,6 +20,8 @@ namespace hazel::layer
 
         virtual void on_event(hazel::event::Event &) {}
 
+        virtual void on_imgui_render() {}
+
         const std::string &to_string() const { return this->debug_name; }
 
     private:

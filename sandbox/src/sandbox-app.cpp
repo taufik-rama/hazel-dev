@@ -28,7 +28,6 @@ public:
     Sandbox()
     {
         this->add_layer(new ExampleLayer());
-        this->add_layer_overlay(new hazel::layer::ImGui());
     }
 
     ~Sandbox() {}

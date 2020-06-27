@@ -2,10 +2,7 @@
 
 namespace hazel::layer
 {
-    Collection::Collection()
-    {
-        this->current_layer = this->layers.begin();
-    }
+    Collection::Collection() {}
 
     Collection::~Collection()
     {
@@ -17,7 +14,8 @@ namespace hazel::layer
 
     void Collection::add(Layer *layer)
     {
-        this->current_layer = this->layers.emplace(this->current_layer, layer);
+        this->layers.emplace(this->layers.begin() + this->current_layer, layer);
+        this->current_layer++;
     }
 
     void Collection::remove(Layer *layer)

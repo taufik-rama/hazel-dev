@@ -2,7 +2,9 @@
 
 #include <hazel/input/input.hpp>
 #include <hazel/event/window.hpp>
+#include <hazel/layer/_fwd.hpp>
 #include <hazel/layer/collection.hpp>
+#include <hazel/layer/imgui.hpp>
 #include <hazel/layer/layer.hpp>
 #include <hazel/core.hpp>
 #include <hazel/window.hpp>
@@ -31,6 +33,7 @@ namespace hazel
     private:
         hazel::layer::Collection layers;
         std::unique_ptr<Window> window;
+        hazel::layer::ImGui *imgui;
         bool running;
         bool window_close_event_callback(hazel::event::Event &);
         static Application *instance;

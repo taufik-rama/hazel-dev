@@ -28,6 +28,6 @@ namespace hazel::layer
 
     private:
         std::vector<Layer *> layers;
-        std::vector<Layer *>::iterator current_layer;
+        unsigned int current_layer = 0;
     };
 } // namespace hazel::layer

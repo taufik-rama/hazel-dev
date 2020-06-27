@@ -17,7 +17,7 @@ namespace hazel::platform::linux
         HAZEL_DEV_LOG_ERROR("GLFW error: {} (error code {})", description, error_code);
     }
 
-    Window::Window(const WindowProps &props = WindowProps())
+    Window::Window(const WindowProps &props)
     {
         this->init(props);
     }
@@ -29,7 +29,7 @@ namespace hazel::platform::linux
 
     void Window::init(const hazel::WindowProps &props)
     {
-        // Since input are defined on different namespace score, we cannot
+        // Since input are defined on different namespace, we cannot
         // inline its value
         hazel::Input::set_instance(new Input());
 
@@ -48,6 +48,7 @@ namespace hazel::platform::linux
         }
 
         this->window = glfwCreateWindow(props.width, props.height, props.title.c_str(), nullptr, nullptr);
+        assert(this->window != nullptr);
         glfwMakeContextCurrent(this->window);
         glfwSetWindowUserPointer(this->window, &this->window_data);
         this->set_vsync(true);

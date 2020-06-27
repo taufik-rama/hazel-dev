@@ -11,8 +11,12 @@ namespace hazel
     {
         assert(!Application::instance);
         Application::instance = this;
+
         this->window = std::unique_ptr<Window>(Window::create());
         this->window->set_event_callback(std::bind(&Application::event_callback, this, std::placeholders::_1));
+
+        this->imgui = new hazel::layer::ImGui();
+        this->add_layer_overlay(this->imgui);
     }
 
     Application::~Application() {}
@@ -64,6 +68,13 @@ namespace hazel
             {
                 layer->on_update();
             }
+
+            this->imgui->begin();
+            for (auto layer : this->layers)
+            {
+                layer->on_imgui_render();
+            }
+            this->imgui->end();
 
             this->window->on_update();
         }

@@ -12,6 +12,7 @@ add_library(hazel-dev SHARED
     "src/input/input.cpp"
     "src/layer/collection.cpp"
     "src/layer/imgui.cpp"
+    "src/layer/imgui-build.cpp"
     "src/platform/linux/input.cpp"
     "src/platform/linux/window.cpp"
     "src/application.cpp"
@@ -51,18 +52,18 @@ find_library(GLAD_LIB
         "../glad/build"
 )
 
-find_library(IMGUI_LIB
-    NAMES
-        imgui
-    HINTS
-        "../imgui/build"
-)
+# find_library(IMGUI_LIB
+#     NAMES
+#         imgui
+#     HINTS
+#         "../imgui/build"
+# )
 
 target_link_libraries(hazel-dev
     PRIVATE
         "${GLFW_LIB}"
         "${GLAD_LIB}"
-        "${IMGUI_LIB}"
+        # "${IMGUI_LIB}"
         GL
         X11
         pthread
