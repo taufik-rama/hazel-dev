@@ -49,11 +49,12 @@ namespace hazel::platform::linux
 
         this->window = glfwCreateWindow(props.width, props.height, props.title.c_str(), nullptr, nullptr);
         assert(this->window != nullptr);
-        glfwMakeContextCurrent(this->window);
+
+        this->context = new hazel::renderer::OpenGLContext(this->window);
+        this->context->init();
+
         glfwSetWindowUserPointer(this->window, &this->window_data);
         this->set_vsync(true);
-
-        assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress));
 
         // GLFW callbacks
         glfwSetWindowSizeCallback(this->window, [](GLFWwindow *window, int width, int height) {
@@ -142,7 +143,7 @@ namespace hazel::platform::linux
     void Window::on_update()
     {
         glfwPollEvents();
-        glfwSwapBuffers(this->window);
+        this->context->swap_buffers();
     }
 
     void Window::set_vsync(bool enabled)

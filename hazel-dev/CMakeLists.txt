@@ -14,6 +14,7 @@ add_library(hazel-dev SHARED
     "src/layer/imgui.cpp"
     "src/layer/imgui-build.cpp"
     "src/platform/linux/input.cpp"
+    "src/platform/linux/opengl_context.cpp"
     "src/platform/linux/window.cpp"
     "src/application.cpp"
     "src/entrypoint.cpp"

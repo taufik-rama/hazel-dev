@@ -5,10 +5,11 @@
 #include <hazel/event/mouse.hpp>
 #include <hazel/event/window.hpp>
 #include <hazel/platform/linux/input.hpp>
+#include <hazel/platform/linux/opengl_context.hpp>
+#include <hazel/renderer/graphics_context.hpp>
 #include <hazel/core.hpp>
 #include <hazel/window.hpp>
 
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace hazel::platform::linux
@@ -18,7 +19,7 @@ namespace hazel::platform::linux
     public:
         Window(const hazel::WindowProps &);
 
-        virtual ~Window();
+        virtual ~Window() override;
 
         void on_update() override;
 
@@ -32,10 +33,12 @@ namespace hazel::platform::linux
 
         virtual bool get_vsync() const override;
 
-        virtual void* get_native_window() const override { return this->window; };
+        virtual void *get_native_window() const override { return this->window; };
 
     private:
         GLFWwindow *window;
+
+        hazel::renderer::GraphicsContext *context;
 
         struct WindowData
         {

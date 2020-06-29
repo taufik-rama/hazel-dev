@@ -37,6 +37,8 @@ namespace hazel
         bool running;
         bool window_close_event_callback(hazel::event::Event &);
         static Application *instance;
+
+        unsigned int vertex_array, vertex_buffer, index_buffer;
     };
 
     Application *create_application();
