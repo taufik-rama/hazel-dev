@@ -9,6 +9,11 @@
 #include <hazel/core.hpp>
 #include <hazel/window.hpp>
 
+namespace hazel::renderer
+{
+    class Shader;
+}
+
 namespace hazel
 {
     class Application
@@ -37,8 +42,8 @@ namespace hazel
         bool running;
         bool window_close_event_callback(hazel::event::Event &);
         static Application *instance;
-
         unsigned int vertex_array, vertex_buffer, index_buffer;
+        std::unique_ptr<hazel::renderer::Shader> shader;
     };
 
     Application *create_application();

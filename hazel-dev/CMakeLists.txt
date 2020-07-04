@@ -16,6 +16,7 @@ add_library(hazel-dev SHARED
     "src/platform/linux/input.cpp"
     "src/platform/linux/opengl_context.cpp"
     "src/platform/linux/window.cpp"
+    "src/renderer/shader.cpp"
     "src/application.cpp"
     "src/entrypoint.cpp"
     "src/logger.cpp"
@@ -53,18 +54,10 @@ find_library(GLAD_LIB
         "../glad/build"
 )
 
-# find_library(IMGUI_LIB
-#     NAMES
-#         imgui
-#     HINTS
-#         "../imgui/build"
-# )
-
 target_link_libraries(hazel-dev
     PRIVATE
         "${GLFW_LIB}"
         "${GLAD_LIB}"
-        # "${IMGUI_LIB}"
         GL
         X11
         pthread
