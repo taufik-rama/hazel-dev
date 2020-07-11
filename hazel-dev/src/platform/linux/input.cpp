@@ -1,5 +1,7 @@
 #include <hazel/platform/linux/input.hpp>
 
+#include <hazel/application.hpp>
+
 namespace hazel::platform::linux
 {
     bool Input::is_key_pressed_impl(unsigned int key_code)

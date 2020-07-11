@@ -1,5 +1,12 @@
 #include "hazel/layer/imgui.hpp"
 
+#include <hazel/application.hpp>
+
+#include <imgui.h>
+#include <examples/imgui_impl_glfw.h>
+#include <examples/imgui_impl_opengl3.h>
+#include <GLFW/glfw3.h>
+
 namespace hazel::layer
 {
     ImGui::ImGui() : Layer("Layer::ImGui") {}

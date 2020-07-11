@@ -1,13 +1,6 @@
 #pragma once
 
-#include <hazel/input/input.hpp>
-#include <hazel/event/key.hpp>
-#include <hazel/event/mouse.hpp>
-#include <hazel/event/window.hpp>
-#include <hazel/platform/linux/input.hpp>
-#include <hazel/platform/linux/opengl_context.hpp>
 #include <hazel/renderer/graphics_context.hpp>
-#include <hazel/core.hpp>
 #include <hazel/window.hpp>
 
 #include <GLFW/glfw3.h>

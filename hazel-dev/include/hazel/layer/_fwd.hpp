@@ -7,4 +7,4 @@ namespace hazel::layer
     class ImGui;
 
     class Layer;
-}
+} // namespace hazel::layer

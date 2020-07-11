@@ -11,7 +11,7 @@ public:
 
     void on_event(hazel::event::Event &) override
     {
-        if (hazel::Input::is_key_pressed(HAZEL_KEY_TAB))
+        if (hazel::input::Input::is_key_pressed(HAZEL_KEY_TAB))
         {
             HAZEL_CLIENT_LOG_TRACE("Tab key is pressed", "");
         }

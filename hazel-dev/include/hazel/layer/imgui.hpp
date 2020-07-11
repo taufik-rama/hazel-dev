@@ -1,17 +1,6 @@
 #pragma once
 
-#include <hazel/event/event.hpp>
-#include <hazel/event/key.hpp>
-#include <hazel/event/mouse.hpp>
-#include <hazel/event/window.hpp>
 #include <hazel/layer/layer.hpp>
-#include <hazel/application.hpp>
-
-#include <imgui.h>
-#include <examples/imgui_impl_glfw.h>
-#include <examples/imgui_impl_opengl3.h>
-
-#include <GLFW/glfw3.h>
 
 namespace hazel::layer
 {

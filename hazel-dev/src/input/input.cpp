@@ -1,6 +1,6 @@
 #include <hazel/input/input.hpp>
 
-namespace hazel
+namespace hazel::input
 {
     Input *Input::instance = nullptr;
 }

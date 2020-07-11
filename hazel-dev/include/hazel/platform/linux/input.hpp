@@ -1,13 +1,12 @@
 #pragma once
 
 #include <hazel/input/input.hpp>
-#include <hazel/application.hpp>
 
 #include <GLFW/glfw3.h>
 
 namespace hazel::platform::linux
 {
-    class Input : public hazel::Input
+    class Input : public hazel::input::Input
     {
     protected:
         virtual bool is_key_pressed_impl(unsigned int key_code) override;

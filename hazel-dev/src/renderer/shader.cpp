@@ -1,5 +1,7 @@
 #include <hazel/renderer/shader.hpp>
 
+#include <glad/glad.h>
+
 namespace hazel::renderer
 {
     Shader::Shader(std::string &vertex_source, std::string &fragment_source)

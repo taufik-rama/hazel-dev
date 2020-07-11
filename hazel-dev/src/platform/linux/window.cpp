@@ -1,5 +1,13 @@
 #include <hazel/platform/linux/window.hpp>
 
+#include <hazel/input/input.hpp>
+#include <hazel/event/key.hpp>
+#include <hazel/event/mouse.hpp>
+#include <hazel/event/window.hpp>
+#include <hazel/platform/linux/input.hpp>
+#include <hazel/platform/linux/opengl_context.hpp>
+#include <hazel/core.hpp>
+
 namespace hazel
 {
     static bool is_glfw_initialized = false;
@@ -31,7 +39,7 @@ namespace hazel::platform::linux
     {
         // Since input are defined on different namespace, we cannot
         // inline its value
-        hazel::Input::set_instance(new Input());
+        hazel::input::Input::set_instance(new Input());
 
         this->window_data.title = props.title;
         this->window_data.width = props.width;

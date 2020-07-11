@@ -4,7 +4,7 @@
 #include <hazel/input/mouse_button_codes.hpp>
 #include <hazel/core.hpp>
 
-namespace hazel
+namespace hazel::input
 {
     class Input
     {
