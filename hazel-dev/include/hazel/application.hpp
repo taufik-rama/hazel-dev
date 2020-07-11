@@ -36,10 +36,11 @@ namespace hazel
         static Application *instance;
         bool running;
 
-        unsigned int vertex_array;
-        std::unique_ptr<hazel::renderer::Shader> shader;
-        std::unique_ptr<hazel::renderer::VertexBuffer> vertex_buffer;
-        std::unique_ptr<hazel::renderer::IndexBuffer> index_buffer;
+        std::shared_ptr<hazel::renderer::Shader> shader;
+        std::shared_ptr<hazel::renderer::VertexArray> vertex_array;
+
+        std::shared_ptr<hazel::renderer::Shader> square_shader;
+        std::shared_ptr<hazel::renderer::VertexArray> square_vertex_array;
     };
 
     Application *create_application();

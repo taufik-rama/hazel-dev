@@ -72,6 +72,8 @@ namespace hazel::renderer
         // Get a program object.
         this->renderer_id = glCreateProgram();
 
+        HAZEL_DEV_LOG_TRACE("Creating shader (id: {})", this->renderer_id);
+
         // Attach our shaders to our program
         glAttachShader(this->renderer_id, vertexShader);
         glAttachShader(this->renderer_id, fragmentShader);

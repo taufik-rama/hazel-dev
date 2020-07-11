@@ -68,7 +68,7 @@ namespace hazel::event
 
         bool is_handled() const { return this->handled; }
 
-        FORMAT_TO_STRING(const Event &)
+        FORMAT_TO_STRING(Event)
 
     protected:
         bool handled = false;
@@ -83,7 +83,7 @@ namespace hazel::event
         EventDispatcher(Event &e) : event(e) {}
 
         virtual ~EventDispatcher() {}
-
+ 
         template <typename T>
         bool dispatch(EventFn<T> fn)
         {

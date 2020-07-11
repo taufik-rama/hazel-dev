@@ -5,7 +5,7 @@
 
 namespace hazel::renderer
 {
-    VertexArray::VertexArray *create()
+    VertexArray* VertexArray::create()
     {
         switch (Renderer::get_api())
         {
@@ -17,12 +17,4 @@ namespace hazel::renderer
         }
         assert(false);
     }
-
-    void VertexArray::bind() const {}
-
-    void VertexArray::unbind() const {}
-
-    void VertexArray::add_vertex_buffer(const std::shared_ptr<VertexBuffer> &buffer) {}
-
-    void VertexArray::add_index_buffer(const std::shared_ptr<IndexBuffer> &buffer) {}
 } // namespace hazel::renderer

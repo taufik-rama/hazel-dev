@@ -9,4 +9,6 @@ namespace hazel::renderer
     class IndexBuffer;
 
     class Shader;
+
+    class VertexArray;
 } // namespace hazel::renderer

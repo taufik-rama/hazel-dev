@@ -7,13 +7,20 @@ namespace hazel::platform::linux
     VertexBuffer::VertexBuffer(float *vertices, size_t size) : layout({})
     {
         gl_call(glCreateBuffers(1, &this->renderer_id));
+        HAZEL_DEV_LOG_TRACE("Creating vertex buffer (id: {}, size: {})", this->renderer_id, size);
         gl_call(glBindBuffer(GL_ARRAY_BUFFER, this->renderer_id));
         gl_call(glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW));
+        gl_call(glBindBuffer(GL_ARRAY_BUFFER, 0));
     }
 
     VertexBuffer::~VertexBuffer()
     {
         gl_call(glDeleteBuffers(1, &this->renderer_id));
+    }
+
+    std::string VertexBuffer::to_string() const
+    {
+        return std::to_string(this->renderer_id);
     }
 
     void VertexBuffer::bind() const
@@ -33,13 +40,20 @@ namespace hazel::platform::linux
     IndexBuffer::IndexBuffer(unsigned int *indices, unsigned int count) : count(count)
     {
         gl_call(glCreateBuffers(1, &this->renderer_id));
+        HAZEL_DEV_LOG_TRACE("Creating index buffer (id: {}, count: {})", this->renderer_id, this->count);
         gl_call(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->renderer_id));
         gl_call(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), indices, GL_STATIC_DRAW));
+        gl_call(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
     }
 
     IndexBuffer::~IndexBuffer()
     {
         gl_call(glDeleteBuffers(1, &this->renderer_id));
+    }
+
+    std::string IndexBuffer::to_string() const
+    {
+        return std::to_string(this->renderer_id);
     }
 
     void IndexBuffer::bind() const

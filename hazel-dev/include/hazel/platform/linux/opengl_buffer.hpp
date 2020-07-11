@@ -14,6 +14,8 @@ namespace hazel::platform::linux
 
         virtual ~VertexBuffer();
 
+        virtual std::string to_string() const override;
+
         virtual void bind() const override;
 
         virtual void unbind() const override;
@@ -33,6 +35,8 @@ namespace hazel::platform::linux
         IndexBuffer(unsigned int *indices, unsigned int count);
 
         virtual ~IndexBuffer();
+
+        virtual std::string to_string() const override;
 
         virtual void bind() const override;
 
