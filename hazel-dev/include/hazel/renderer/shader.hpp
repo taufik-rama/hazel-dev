@@ -2,6 +2,8 @@
 
 #include <hazel/core.hpp>
 
+#include <glm/glm.hpp>
+
 namespace hazel::renderer
 {
     enum class ShaderDataType : unsigned int
@@ -41,6 +43,8 @@ namespace hazel::renderer
         void bind() const;
 
         void unbind() const;
+
+        void upload_uniform(const std::string &name, const glm::mat4 &matrix);
 
     private:
         unsigned int renderer_id;

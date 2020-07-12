@@ -1,5 +1,6 @@
 #include <hazel/application.hpp>
 
+#include <hazel/camera/orthographic.hpp>
 #include <hazel/event/window.hpp>
 #include <hazel/layer/collection.hpp>
 #include <hazel/layer/imgui.hpp>
@@ -16,6 +17,9 @@ namespace hazel
     {
         assert(!Application::instance);
         Application::instance = this;
+
+        // 16:9 aspect ratio
+        this->camera.reset(new hazel::camera::Orthographic(-1.6f, 1.6f, -0.9f, 0.9f));
 
         this->layers = new hazel::layer::Collection();
 
@@ -54,6 +58,8 @@ namespace hazel
             #version 450 core
             layout(location = 0) in vec3 a_Position;
             layout(location = 1) in vec4 a_Color;
+
+            uniform mat4 u_ViewProjection;
             
             out vec3 v_Position;
             out vec4 v_Color;
@@ -61,7 +67,7 @@ namespace hazel
             void main() {
                 v_Position = a_Position;
                 v_Color = a_Color;
-                gl_Position = vec4(a_Position, 1.0);
+                gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
             }
         )";
             std::string fragment_source = R"(
@@ -105,11 +111,13 @@ namespace hazel
                 #version 450 core
                 layout(location = 0) in vec3 a_Position;
                 
+                uniform mat4 u_ViewProjection;
+
                 out vec3 v_Position;
 
                 void main() {
                     v_Position = a_Position;
-                    gl_Position = vec4(a_Position, 1.0);
+                    gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
                 }
             )";
             std::string fragment_source = R"(
@@ -171,14 +179,12 @@ namespace hazel
             renderer::Command::set_clear_color({0.2, 0.2, 0.2, 1});
             renderer::Command::clear_color();
 
-            renderer::Renderer::begin_scene();
+            this->camera->set_position({0.5f, 0.5f, 0.0f});
+            this->camera->set_rotation(60.0f);
 
-            this->square_shader->bind();
-            renderer::Renderer::submit(this->square_vertex_array);
-
-            this->shader->bind();
-            renderer::Renderer::submit(this->vertex_array);
-
+            renderer::Renderer::begin_scene(*this->camera);
+            renderer::Renderer::submit(this->square_shader, this->square_vertex_array);
+            renderer::Renderer::submit(this->shader, this->vertex_array);
             renderer::Renderer::end_scene();
 
             for (auto layer : *this->layers)

@@ -9,6 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(HazelDev VERSION 0.0.1)
 
 add_library(hazel-dev SHARED 
+    "src/camera/orthographic.cpp"
     "src/input/input.cpp"
     "src/layer/collection.cpp"
     "src/layer/imgui.cpp"

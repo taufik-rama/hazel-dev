@@ -1,5 +1,6 @@
 #pragma once
 
+#include <hazel/camera/_fwd.hpp>
 #include <hazel/layer/_fwd.hpp>
 #include <hazel/renderer/_fwd.hpp>
 #include <hazel/core.hpp>
@@ -41,6 +42,8 @@ namespace hazel
 
         std::shared_ptr<hazel::renderer::Shader> square_shader;
         std::shared_ptr<hazel::renderer::VertexArray> square_vertex_array;
+
+        std::shared_ptr<hazel::camera::Orthographic> camera;
     };
 
     Application *create_application();
