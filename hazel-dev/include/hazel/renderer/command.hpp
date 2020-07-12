@@ -17,6 +17,6 @@ namespace hazel::renderer
         static void draw_index(const std::shared_ptr<VertexArray> &va);
 
     private:
-        static Library* api_library;
+        static Library* library;
     };
 } // namespace hazel::renderer
