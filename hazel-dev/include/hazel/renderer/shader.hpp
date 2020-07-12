@@ -2,9 +2,6 @@
 
 #include <hazel/core.hpp>
 
-// #include <glad/glad.h>
-// #include <GLFW/glfw3.h>
-
 namespace hazel::renderer
 {
     enum class ShaderDataType : unsigned int

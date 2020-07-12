@@ -4,12 +4,9 @@
 #include <hazel/layer/collection.hpp>
 #include <hazel/layer/imgui.hpp>
 #include <hazel/renderer/buffer.hpp>
+#include <hazel/renderer/renderer.hpp>
 #include <hazel/renderer/shader.hpp>
 #include <hazel/renderer/vertex_array.hpp>
-
-// Temporary, GL stuff
-#include <glad/glad.h>
-#include <hazel/platform/linux/opengl_log.hpp>
 
 namespace hazel
 {
@@ -171,18 +168,18 @@ namespace hazel
         this->running = true;
         while (this->running)
         {
-            gl_call(glClearColor(0.2, 0.2, 0.2, 1));
-            gl_call(glClear(GL_COLOR_BUFFER_BIT));
+            renderer::Command::set_clear_color({0.2, 0.2, 0.2, 1});
+            renderer::Command::clear_color();
+
+            renderer::Renderer::begin_scene();
 
             this->square_shader->bind();
-            this->square_vertex_array->bind();
-            this->square_vertex_array->get_index_buffer()->bind();
-            gl_call(glDrawElements(GL_TRIANGLES, this->square_vertex_array->get_index_buffer()->get_count(), GL_UNSIGNED_INT, nullptr));
+            renderer::Renderer::submit(this->square_vertex_array);
 
             this->shader->bind();
-            this->vertex_array->bind();
-            this->vertex_array->get_index_buffer()->bind();
-            gl_call(glDrawElements(GL_TRIANGLES, this->vertex_array->get_index_buffer()->get_count(), GL_UNSIGNED_INT, nullptr));
+            renderer::Renderer::submit(this->vertex_array);
+
+            renderer::Renderer::end_scene();
 
             for (auto layer : *this->layers)
             {

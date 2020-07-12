@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/glad/include",
+                "${workspaceFolder}/glm",
                 "${workspaceFolder}/hazel-dev/include",
                 "${workspaceFolder}/imgui",
                 "${workspaceFolder}/hazel-dev/vendor/glfw/include",

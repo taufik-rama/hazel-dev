@@ -1,7 +1,7 @@
 #include <hazel/renderer/buffer.hpp>
 
 #include <hazel/platform/linux/opengl_buffer.hpp>
-#include <hazel/renderer/renderer.hpp>
+#include <hazel/renderer/library.hpp>
 #include <hazel/application.hpp>
 
 namespace hazel::renderer
@@ -49,12 +49,12 @@ namespace hazel::renderer
 
     VertexBuffer *VertexBuffer::create(float *vertices, size_t size)
     {
-        switch (Renderer::get_api())
+        switch (Library::get_api_library())
         {
-        case RendererAPI::NONE:
+        case Library::API::NONE:
             break;
 
-        case RendererAPI::OPENGL:
+        case Library::API::OPENGL:
             return new hazel::platform::linux::VertexBuffer(vertices, size);
         }
         assert(false);
@@ -62,12 +62,12 @@ namespace hazel::renderer
 
     IndexBuffer *IndexBuffer::create(unsigned int *indices, size_t size)
     {
-        switch (Renderer::get_api())
+        switch (Library::get_api_library())
         {
-        case RendererAPI::NONE:
+        case Library::API::NONE:
             break;
 
-        case RendererAPI::OPENGL:
+        case Library::API::OPENGL:
             return new hazel::platform::linux::IndexBuffer(indices, size);
         }
         assert(false);
