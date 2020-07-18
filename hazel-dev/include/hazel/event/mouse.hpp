@@ -22,8 +22,6 @@ namespace hazel::event
     public:
         MouseButtonPressEvent(int mouse_code) : MouseButtonEvent(mouse_code) {}
 
-        virtual ~MouseButtonPressEvent() {}
-
         std::string to_string() const override
         {
             std::stringstream ss;
@@ -39,8 +37,6 @@ namespace hazel::event
     public:
         MouseButtonReleaseEvent(int mouse_code) : MouseButtonEvent(mouse_code) {}
 
-        virtual ~MouseButtonReleaseEvent() {}
-
         std::string to_string() const override
         {
             std::stringstream ss;
@@ -55,8 +51,6 @@ namespace hazel::event
     {
     public:
         MouseMoveEvent(float x, float y): x(x),  y(y) {}
-
-        virtual ~MouseMoveEvent() {}
         
         float get_x() const { return this->x; }
 
@@ -81,8 +75,6 @@ namespace hazel::event
     {
     public:
         MouseScrollEvent(float x_offset, float y_offset) : x_offset(x_offset), y_offset(y_offset) {}
-
-        virtual ~MouseScrollEvent() {}
 
         float get_x_offset() const { return this->x_offset; }
 

@@ -11,8 +11,6 @@ namespace hazel::layer
 {
     ImGui::ImGui() : Layer("Layer::ImGui") {}
 
-    ImGui::~ImGui() {}
-
     void ImGui::on_attach()
     {
         // Setup Dear ImGui context

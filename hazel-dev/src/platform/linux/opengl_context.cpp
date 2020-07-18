@@ -2,8 +2,6 @@
 
 namespace hazel::renderer
 {
-    OpenGLContext::~OpenGLContext() {}
-
     void OpenGLContext::init()
     {
         glfwMakeContextCurrent(this->window);

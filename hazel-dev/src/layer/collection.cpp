@@ -2,8 +2,6 @@
 
 namespace hazel::layer
 {
-    Collection::Collection() {}
-
     Collection::~Collection()
     {
         for (auto layer : this->layers)

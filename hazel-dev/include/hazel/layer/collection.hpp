@@ -10,8 +10,6 @@ namespace hazel::layer
     class Collection
     {
     public:
-        Collection();
-
         ~Collection();
 
         void add(Layer *);

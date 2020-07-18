@@ -2,7 +2,7 @@
 
 #include <hazel/core.hpp>
 
-#include <glm/glm.hpp>
+// #include <glm/glm.hpp>
 
 namespace hazel::renderer
 {
@@ -36,17 +36,17 @@ namespace hazel::renderer
     class Shader
     {
     public:
-        Shader(std::string &vertex_source, std::string &fragment_source);
+        virtual void bind() const = 0;
 
-        ~Shader();
+        virtual void unbind() const = 0;
 
-        void bind() const;
+        // virtual void upload_uniform(const std::string &, const glm::mat4 &) = 0;
 
-        void unbind() const;
+        // virtual void upload_uniform(const std::string &, const glm::vec4 &) = 0;
 
-        void upload_uniform(const std::string &name, const glm::mat4 &matrix);
+        static Shader *create(std::string &vertex_source, std::string &fragment_source);
 
-    private:
-        unsigned int renderer_id;
+        virtual std::string to_string() const = 0;
+        FORMAT_TO_STRING(Shader)
     };
 } // namespace hazel::renderer

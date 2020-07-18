@@ -7,10 +7,6 @@ namespace hazel::event
     class WindowCloseEvent : public Event
     {
     public:
-        WindowCloseEvent() {}
-
-        virtual ~WindowCloseEvent() {}
-
         EVENT_TYPE_CATEGORY_METHODS(EventTypeCategorySet1(EventTypeCategory::WINDOW))
         EVENT_TYPE_METHODS(WINDOW_CLOSE)
     };
@@ -19,8 +15,6 @@ namespace hazel::event
     {
     public:
         WindowResizeEvent(unsigned int width, unsigned int height) : width(width), height(height) {}
-
-        virtual ~WindowResizeEvent() {}
 
         unsigned int get_width() const { return this->width; }
 

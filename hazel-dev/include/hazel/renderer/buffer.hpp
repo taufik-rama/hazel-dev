@@ -39,10 +39,6 @@ namespace hazel::renderer
     class VertexBuffer
     {
     public:
-        virtual ~VertexBuffer() {}
-
-        virtual std::string to_string() const = 0;
-
         virtual void bind() const = 0;
 
         virtual void unbind() const = 0;
@@ -53,16 +49,13 @@ namespace hazel::renderer
 
         static VertexBuffer *create(float *vertices, size_t size);
 
+        virtual std::string to_string() const = 0;
         FORMAT_TO_STRING(VertexBuffer)
     };
 
     class IndexBuffer
     {
     public:
-        virtual ~IndexBuffer() {}
-
-        virtual std::string to_string() const = 0;
-
         virtual void bind() const = 0;
 
         virtual void unbind() const = 0;
@@ -71,6 +64,7 @@ namespace hazel::renderer
 
         static IndexBuffer *create(unsigned int *indices, size_t size);
 
+        virtual std::string to_string() const = 0;
         FORMAT_TO_STRING(IndexBuffer)
     };
 } // namespace hazel::renderer

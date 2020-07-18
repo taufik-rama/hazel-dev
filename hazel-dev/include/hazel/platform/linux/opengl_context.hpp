@@ -12,8 +12,6 @@ namespace hazel::renderer
     public:
         OpenGLContext(GLFWwindow *window) : window(window) {}
 
-        virtual ~OpenGLContext() override;
-
         virtual void init() override;
 
         virtual void swap_buffers() override;

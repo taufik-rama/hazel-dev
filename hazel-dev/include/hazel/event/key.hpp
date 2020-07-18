@@ -7,10 +7,6 @@ namespace hazel::event
     class KeyEvent : public Event
     {
     public:
-        KeyEvent() {}
-
-        virtual ~KeyEvent() {}
-
         unsigned int get_key_code() const { return this->key_code; }
 
         EVENT_TYPE_CATEGORY_METHODS(
@@ -28,8 +24,6 @@ namespace hazel::event
     {
     public:
         KeyPressEvent(unsigned int key_code, int repeat_count) : KeyEvent(key_code), repeat_count(repeat_count) {}
-
-        virtual ~KeyPressEvent() {}
 
         int get_repeat_count() const { return this->repeat_count; }
 
@@ -51,8 +45,6 @@ namespace hazel::event
     public:
         KeyReleaseEvent(unsigned int key_code) : KeyEvent(key_code) {}
 
-        virtual ~KeyReleaseEvent() {}
-
         std::string to_string() const override
         {
             std::stringstream ss;
@@ -67,8 +59,6 @@ namespace hazel::event
     {
     public:
         KeyTypeEvent(unsigned int key_code) : KeyEvent(key_code) {}
-
-        virtual ~KeyTypeEvent() {}
 
         std::string to_string() const override
         {

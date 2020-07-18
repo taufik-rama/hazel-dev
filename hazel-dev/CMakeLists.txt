@@ -19,6 +19,7 @@ add_library(hazel-dev SHARED
     "src/platform/linux/opengl_context.cpp"
     "src/platform/linux/opengl_library.cpp"
     "src/platform/linux/opengl_log.cpp"
+    "src/platform/linux/opengl_shader.cpp"
     "src/platform/linux/opengl_vertex_array.cpp"
     "src/platform/linux/window.cpp"
     "src/renderer/buffer.cpp"

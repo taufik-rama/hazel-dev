@@ -12,7 +12,10 @@
 
 #include <hazel/input/input.hpp>
 
+#include <hazel/layer/imgui.hpp>
 #include <hazel/layer/layer.hpp>
+
+#include <hazel/platform/linux/opengl_shader.hpp>
 
 #include <hazel/renderer/command.hpp>
 #include <hazel/renderer/renderer.hpp>

@@ -53,13 +53,12 @@ namespace hazel::event
         friend class EventDispatcher;
 
     public:
+
         virtual EventType get_event_type() const = 0;
 
         virtual unsigned int get_event_type_categories() const = 0;
 
         virtual const char *get_name() const = 0;
-
-        virtual std::string to_string() const { return this->get_name(); }
 
         bool is_in_category(EventTypeCategory category) const
         {
@@ -68,6 +67,7 @@ namespace hazel::event
 
         bool is_handled() const { return this->handled; }
 
+        virtual std::string to_string() const { return this->get_name(); }
         FORMAT_TO_STRING(Event)
 
     protected:
@@ -82,8 +82,6 @@ namespace hazel::event
     public:
         EventDispatcher(Event &e) : event(e) {}
 
-        virtual ~EventDispatcher() {}
- 
         template <typename T>
         bool dispatch(EventFn<T> fn)
         {

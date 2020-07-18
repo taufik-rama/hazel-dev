@@ -12,7 +12,7 @@ namespace hazel::platform::linux
     public:
         Window(const hazel::WindowProps &);
 
-        virtual ~Window() override;
+        virtual ~Window();
 
         void on_update() override;
 

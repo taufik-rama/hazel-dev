@@ -9,8 +9,6 @@ namespace hazel::layer
     public:
         ImGui();
 
-        ~ImGui();
-
         virtual void on_attach() override;
 
         virtual void on_detach() override;

@@ -11,7 +11,7 @@ namespace hazel::layer
     public:
         Layer(const std::string &name = "Layer") : debug_name(name) {}
 
-        virtual ~Layer() {}
+        virtual ~Layer() = default;
 
         virtual void on_attach() {}
 
