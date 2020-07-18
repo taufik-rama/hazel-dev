@@ -33,7 +33,8 @@ namespace hazel
         hazel::layer::ImGui *imgui;
 
         static Application *instance;
-        bool running;
+        bool is_instace_running;
+        float last_frame_duration = 0.0f;
     };
 
     Application *create_application();

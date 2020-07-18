@@ -57,7 +57,15 @@ namespace hazel::camera
         auto z_axis = glm::vec3(0, 0, 1);
         auto rotation = glm::rotate(identity, glm::radians(this->current_rotation), z_axis);
 
-        glm::mat4 transformation = translation * rotation;
+        glm::mat4 transformation;
+        if (this->translation_rotation == TRANSLATION_ROTATION::ROTATE_BEFORE_TRANSLATE)
+        {
+            transformation = translation * rotation;
+        }
+        else
+        {
+            transformation = rotation * translation;
+        }
 
         // `transformation` is the object transformation, `view_matrix` is the camera's.
         // When the camera moves left, the object moves right, so it's always inverted.

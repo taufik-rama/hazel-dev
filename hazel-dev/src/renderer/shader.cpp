@@ -124,10 +124,17 @@ namespace hazel::renderer
         glUseProgram(0);
     }
 
-    void Shader::upload_uniform(const std::string &name, const glm::mat4 &matrix)
+    void Shader::upload_uniform(const std::string &name, const glm::mat4 &mat)
     {
         GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
-        assert(location != -1);
-        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+        ASSERT(location != -1, "uniform doesn't exists: " << name);
+        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+    }
+
+    void Shader::upload_uniform(const std::string &name, const glm::vec4 &vec)
+    {
+        GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
+        ASSERT(location != -1, "uniform doesn't exists: " << name);
+        glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
     }
 } // namespace hazel::renderer

@@ -12,7 +12,8 @@
                 "${workspaceFolder}/hazel-dev/vendor/spdlog/include"
             ],
             "defines": [
-                "GLFW_INCLUDE_NONE"
+                "GLFW_INCLUDE_NONE",
+                "HAZEL_DEBUG"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",

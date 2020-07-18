@@ -85,4 +85,7 @@ add_compile_definitions(
 
     # Don't add OpenGL def on GLFW3
     GLFW_INCLUDE_NONE
+
+    # Debug mode
+    HAZEL_DEBUG
 )

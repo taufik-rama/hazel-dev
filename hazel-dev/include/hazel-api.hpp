@@ -2,6 +2,8 @@
 
 #include <hazel/camera/orthographic.hpp>
 
+#include <hazel/core/timestep.hpp>
+
 #include <hazel/event/app.hpp>
 #include <hazel/event/event.hpp>
 #include <hazel/event/key.hpp>

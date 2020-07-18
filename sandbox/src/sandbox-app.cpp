@@ -2,19 +2,25 @@
 
 #include <hazel-api.hpp>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 class ExampleLayer : public hazel::layer::Layer
 {
 public:
     ExampleLayer()
         : hazel::layer::Layer("Sandbox Example Layer"),
           camera_pos(0.0f),
-          camera_pos_speed(0.05f),
+          camera_pos_speed(5.0f),
           camera_rot(0.0f),
-          camera_rot_speed(2.0f)
+          camera_rot_speed(180.0f)
     {
+        // Set the vsync to false so that we're able to see the actual framerate.
+        // The app should feel/run normal whether this is on or off
+        hazel::Application::get_application()->get_window().set_vsync(false);
 
         // 16:9 aspect ratio
         this->camera.reset(new hazel::camera::Orthographic(-1.6f, 1.6f, -0.9f, 0.9f));
+        this->camera->set_translation_rotation(hazel::camera::Orthographic::TRANSLATION_ROTATION::TRANSLATE_BEFORE_ROTATE);
 
         this->vertex_array.reset(hazel::renderer::VertexArray::create());
         {
@@ -49,6 +55,7 @@ public:
                 layout(location = 1) in vec4 a_Color;
 
                 uniform mat4 u_ViewProjection;
+                uniform mat4 u_Transform;
                 
                 out vec3 v_Position;
                 out vec4 v_Color;
@@ -56,7 +63,7 @@ public:
                 void main() {
                     v_Position = a_Position;
                     v_Color = a_Color;
-                    gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+                    gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
                 }
             )";
             std::string fragment_source = R"(
@@ -78,10 +85,10 @@ public:
             this->square_vertex_array.reset(hazel::renderer::VertexArray::create());
 
             float vertices[4 * 3] = {
-                -0.75f, -0.75f, 0.0f, // 0
-                0.75f, -0.75f, 0.0f,  // 1
-                0.75f, 0.75f, 0.0f,   // 2
-                -0.75f, 0.75f, 0.0f,  // 3
+                -0.5f, -0.5f, 0.0f, // 0
+                0.5f, -0.5f, 0.0f,  // 1
+                0.5f, 0.5f, 0.0f,   // 2
+                -0.5f, 0.5f, 0.0f,  // 3
             };
             std::shared_ptr<hazel::renderer::VertexBuffer> square_vertex_buffer;
             square_vertex_buffer.reset(hazel::renderer::VertexBuffer::create(vertices, sizeof(vertices)));
@@ -101,55 +108,59 @@ public:
                 layout(location = 0) in vec3 a_Position;
                 
                 uniform mat4 u_ViewProjection;
+                uniform mat4 u_Transform;
 
-                out vec3 v_Position;
+                // out vec3 v_Position;
 
                 void main() {
-                    v_Position = a_Position;
-                    gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+                    // v_Position = a_Position;
+                    gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
                 }
             )";
             std::string fragment_source = R"(
                 #version 450 core
                 layout(location = 0) out vec4 color;
 
-                in vec3 v_Position;
+                uniform vec4 u_Color;
+
+                // in vec3 v_Position;
 
                 void main() {
-                    color = vec4(0.2, 0.3, 0.8, 1.0);
+                    // color = vec4(0.2, 0.3, 0.8, 1.0);
+                    color = u_Color;
                 }
             )";
             this->square_shader.reset(new hazel::renderer::Shader(vertex_source, fragment_source));
         }
     }
 
-    void on_update() override
+    void on_update(hazel::core::Timestep ts) override
     {
         if (hazel::input::Input::is_key_pressed(HAZEL_KEY_W))
         {
-            this->camera_pos.y += this->camera_pos_speed;
+            this->camera_pos.y += this->camera_pos_speed * ts;
         }
         else if (hazel::input::Input::is_key_pressed(HAZEL_KEY_S))
         {
-            this->camera_pos.y -= this->camera_pos_speed;
+            this->camera_pos.y -= this->camera_pos_speed * ts;
         }
 
         if (hazel::input::Input::is_key_pressed(HAZEL_KEY_A))
         {
-            this->camera_pos.x -= this->camera_pos_speed;
+            this->camera_pos.x -= this->camera_pos_speed * ts;
         }
         else if (hazel::input::Input::is_key_pressed(HAZEL_KEY_D))
         {
-            this->camera_pos.x += this->camera_pos_speed;
+            this->camera_pos.x += this->camera_pos_speed * ts;
         }
 
-        if (hazel::input::Input::is_key_pressed(HAZEL_KEY_J))
+        if (hazel::input::Input::is_key_pressed(HAZEL_KEY_O))
         {
-            this->camera_rot += this->camera_rot_speed;
+            this->camera_rot += this->camera_rot_speed * ts;
         }
-        else if (hazel::input::Input::is_key_pressed(HAZEL_KEY_L))
+        else if (hazel::input::Input::is_key_pressed(HAZEL_KEY_P))
         {
-            this->camera_rot -= this->camera_rot_speed;
+            this->camera_rot -= this->camera_rot_speed * ts;
         }
 
         hazel::renderer::Command::set_clear_color({0.2, 0.2, 0.2, 1});
@@ -159,8 +170,34 @@ public:
         this->camera->set_rotation(this->camera_rot);
 
         hazel::renderer::Renderer::begin_scene(*this->camera);
-        hazel::renderer::Renderer::submit(this->square_shader, this->square_vertex_array);
+
+        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+        glm::vec4 red_color(0.8f, 0.2f, 0.3f, 1.0f);
+        glm::vec4 blue_color(0.2f, 0.3f, 0.8f, 1.0f);
+        for (int i = 0; i < 20; i++)
+        {
+            this->square_shader->bind();
+            for (int j = 0; j < 20; j++)
+            {
+                glm::vec3 pos(i * 0.11f, j * 0.11f, 0.0f);
+                if (i % 2 == 0)
+                {
+                    this->square_shader->upload_uniform("u_Color", red_color);
+                }
+                else
+                {
+                    this->square_shader->upload_uniform("u_Color", blue_color);
+                }
+                hazel::renderer::Renderer::submit(
+                    this->square_shader,
+                    this->square_vertex_array,
+                    glm::translate(glm::mat4(1.0f), pos) * scale);
+            }
+            this->square_shader->unbind();
+        }
+
         hazel::renderer::Renderer::submit(this->shader, this->vertex_array);
+
         hazel::renderer::Renderer::end_scene();
     }
 

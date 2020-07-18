@@ -16,10 +16,14 @@ namespace hazel::renderer
     {
     }
 
-    void Renderer::submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &va)
+    void Renderer::submit(
+        const std::shared_ptr<Shader> &shader,
+        const std::shared_ptr<VertexArray> &va,
+        const glm::mat4 &transform)
     {
         shader->bind();
         shader->upload_uniform("u_ViewProjection", scene_data.projection_view_matrix);
+        shader->upload_uniform("u_Transform", transform);
 
         va->bind();
         va->get_index_buffer()->bind();

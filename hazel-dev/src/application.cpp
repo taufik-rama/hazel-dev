@@ -1,13 +1,11 @@
 #include <hazel/application.hpp>
 
-#include <hazel/camera/orthographic.hpp>
+#include <hazel/core/timestep.hpp>
 #include <hazel/event/window.hpp>
 #include <hazel/layer/collection.hpp>
 #include <hazel/layer/imgui.hpp>
-#include <hazel/renderer/buffer.hpp>
-#include <hazel/renderer/renderer.hpp>
-#include <hazel/renderer/shader.hpp>
-#include <hazel/renderer/vertex_array.hpp>
+
+#include <GLFW/glfw3.h>
 
 namespace hazel
 {
@@ -48,7 +46,7 @@ namespace hazel
 
     bool Application::window_close_event_callback(hazel::event::Event &)
     {
-        this->running = false;
+        this->is_instace_running = false;
         return true;
     }
 
@@ -66,12 +64,16 @@ namespace hazel
 
     void Application::run()
     {
-        this->running = true;
-        while (this->running)
+        this->is_instace_running = true;
+        while (this->is_instace_running)
         {
+            float time = glfwGetTime();
+            hazel::core::Timestep ts(time - this->last_frame_duration);
+            this->last_frame_duration = time;
+
             for (auto layer : *this->layers)
             {
-                layer->on_update();
+                layer->on_update(ts);
             }
 
             this->imgui->begin();

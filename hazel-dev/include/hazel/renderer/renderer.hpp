@@ -5,6 +5,8 @@
 #include <hazel/renderer/shader.hpp>
 #include <hazel/renderer/vertex_array.hpp>
 
+#include <glm/glm.hpp>
+
 namespace hazel::renderer
 {
     class Renderer
@@ -15,11 +17,14 @@ namespace hazel::renderer
             return Library::get_api_library();
         }
 
-        static void begin_scene(hazel::camera::Orthographic &camera);
+        static void begin_scene(hazel::camera::Orthographic &);
 
         static void end_scene();
 
-        static void submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &va);
+        static void submit(
+            const std::shared_ptr<Shader> &,
+            const std::shared_ptr<VertexArray> &,
+            const glm::mat4 & = glm::mat4(1.0f));
 
     private:
         static struct SceneData

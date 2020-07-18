@@ -20,7 +20,7 @@ namespace hazel
 
 namespace hazel::platform::linux
 {
-    static void glfw_error_callback(int error_code, const char *description)
+    static void glfw_error_callback([[maybe_unused]] int error_code, [[maybe_unused]] const char *description)
     {
         HAZEL_DEV_LOG_ERROR("GLFW error: {} (error code {})", description, error_code);
     }

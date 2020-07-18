@@ -1,5 +1,6 @@
 #pragma once
 
+#include <hazel/core/timestep.hpp>
 #include <hazel/event/event.hpp>
 #include <hazel/core.hpp>
 
@@ -16,7 +17,7 @@ namespace hazel::layer
 
         virtual void on_detach() {}
 
-        virtual void on_update() {}
+        virtual void on_update(hazel::core::Timestep) {}
 
         virtual void on_event(hazel::event::Event &) {}
 

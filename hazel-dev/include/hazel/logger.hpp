@@ -31,6 +31,7 @@ namespace hazel
 
 #define HAZEL_LOG_FORMAT(fmt) "[{} {}:{}] " fmt
 
+#ifdef HAZEL_DEBUG
 #define HAZEL_DEV_LOG_TRACE(fmt, ...)         \
     ::hazel::Logger::get_dev_logger()->trace( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
@@ -62,3 +63,16 @@ namespace hazel
 #define HAZEL_CLIENT_LOG_FATAL(fmt, ...)         \
     ::hazel::Logger::get_client_logger()->fatal( \
         HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
+#else
+#define HAZEL_DEV_LOG_TRACE(fmt, ...)
+#define HAZEL_DEV_LOG_INFO(fmt, ...)
+#define HAZEL_DEV_LOG_WARN(fmt, ...)
+#define HAZEL_DEV_LOG_ERROR(fmt, ...)
+#define HAZEL_DEV_LOG_FATAL(fmt, ...)
+
+#define HAZEL_CLIENT_LOG_TRACE(fmt, ...)
+#define HAZEL_CLIENT_LOG_INFO(fmt, ...)
+#define HAZEL_CLIENT_LOG_WARN(fmt, ...)
+#define HAZEL_CLIENT_LOG_ERROR(fmt, ...)
+#define HAZEL_CLIENT_LOG_FATAL(fmt, ...)
+#endif
