@@ -15,17 +15,17 @@ namespace hazel::platform::linux
 
         virtual void unbind() const override;
 
-        virtual void add_vertex_buffer(const std::shared_ptr<hazel::renderer::VertexBuffer> &buffer) override;
+        virtual void add_vertex_buffer(const hazel::Ref<hazel::renderer::VertexBuffer> &buffer) override;
 
-        virtual const std::vector<std::shared_ptr<hazel::renderer::VertexBuffer>> &get_vertex_buffer() const override;
+        virtual const std::vector<hazel::Ref<hazel::renderer::VertexBuffer>> &get_vertex_buffer() const override;
 
-        virtual void set_index_buffer(const std::shared_ptr<hazel::renderer::IndexBuffer> &buffer) override;
+        virtual void set_index_buffer(const hazel::Ref<hazel::renderer::IndexBuffer> &buffer) override;
 
-        virtual const std::shared_ptr<hazel::renderer::IndexBuffer> &get_index_buffer() const override;
+        virtual const hazel::Ref<hazel::renderer::IndexBuffer> &get_index_buffer() const override;
 
     private:
         unsigned int renderer_id;
-        std::vector<std::shared_ptr<hazel::renderer::VertexBuffer>> vertex_buffers;
-        std::shared_ptr<hazel::renderer::IndexBuffer> index_buffer;
+        std::vector<hazel::Ref<hazel::renderer::VertexBuffer>> vertex_buffers;
+        hazel::Ref<hazel::renderer::IndexBuffer> index_buffer;
     };
 } // namespace hazel::platform::linux

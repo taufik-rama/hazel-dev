@@ -16,7 +16,7 @@ namespace hazel::platform::linux
         gl_call(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
     }
 
-    void Library::draw_index(const std::shared_ptr<hazel::renderer::VertexArray> &va)
+    void Library::draw_index(const hazel::Ref<hazel::renderer::VertexArray> &va)
     {
         gl_call(glDrawElements(GL_TRIANGLES, va->get_index_buffer()->get_count(), GL_UNSIGNED_INT, nullptr));
     }

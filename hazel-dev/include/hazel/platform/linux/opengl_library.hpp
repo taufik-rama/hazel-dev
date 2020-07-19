@@ -10,6 +10,6 @@ namespace hazel::platform::linux
 
         virtual void clear_color() override;
 
-        virtual void draw_index(const std::shared_ptr<hazel::renderer::VertexArray> &va) override;
+        virtual void draw_index(const hazel::Ref<hazel::renderer::VertexArray> &va) override;
     };
 } // namespace hazel::platform::linux

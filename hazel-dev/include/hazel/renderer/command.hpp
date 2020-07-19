@@ -14,7 +14,7 @@ namespace hazel::renderer
 
         static void clear_color();
 
-        static void draw_index(const std::shared_ptr<VertexArray> &va);
+        static void draw_index(const hazel::Ref<VertexArray> &va);
 
     private:
         static Library* library;

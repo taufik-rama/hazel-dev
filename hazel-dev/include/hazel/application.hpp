@@ -28,8 +28,8 @@ namespace hazel
     private:
         bool window_close_event_callback(hazel::event::Event &);
 
+        Scope<Window> window;
         hazel::layer::Collection *layers;
-        std::unique_ptr<Window> window;
         hazel::layer::ImGui *imgui;
 
         static Application *instance;

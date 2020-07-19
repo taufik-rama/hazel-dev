@@ -18,7 +18,7 @@ namespace hazel
 
         this->layers = new hazel::layer::Collection();
 
-        this->window = std::unique_ptr<Window>(Window::create());
+        this->window = Scope<Window>(Window::create());
         this->window->set_event_callback(std::bind(&Application::event_callback, this, std::placeholders::_1));
 
         this->imgui = new hazel::layer::ImGui();

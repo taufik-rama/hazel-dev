@@ -18,8 +18,8 @@ namespace hazel::renderer
     }
 
     void Renderer::submit(
-        const std::shared_ptr<Shader> &shader,
-        const std::shared_ptr<VertexArray> &va,
+        const hazel::Ref<Shader> &shader,
+        const hazel::Ref<VertexArray> &va,
         const glm::mat4 &transform)
     {
         shader->bind();

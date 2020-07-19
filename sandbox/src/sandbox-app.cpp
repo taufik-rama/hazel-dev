@@ -31,7 +31,7 @@ public:
                 0.5f, -0.5f, 0.0f, 0.2f, 0.2f, 0.8f, 1.0f,  // 1
                 0.0f, 0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f,   // 2
             };
-            std::shared_ptr<hazel::renderer::VertexBuffer> vertex_buffer;
+            hazel::Ref<hazel::renderer::VertexBuffer> vertex_buffer;
             vertex_buffer.reset(hazel::renderer::VertexBuffer::create(vertices, sizeof(vertices)));
             {
                 hazel::renderer::BufferLayout layout = {
@@ -45,7 +45,7 @@ public:
         {
             const unsigned int indices_len = 3;
             unsigned int indices[indices_len] = {0, 1, 2};
-            std::shared_ptr<hazel::renderer::IndexBuffer> index_buffer;
+            hazel::Ref<hazel::renderer::IndexBuffer> index_buffer;
             index_buffer.reset(hazel::renderer::IndexBuffer::create(indices, indices_len));
             this->vertex_array->set_index_buffer(index_buffer);
         }
@@ -92,7 +92,7 @@ public:
                 0.5f, 0.5f, 0.0f,   // 2
                 -0.5f, 0.5f, 0.0f,  // 3
             };
-            std::shared_ptr<hazel::renderer::VertexBuffer> square_vertex_buffer;
+            hazel::Ref<hazel::renderer::VertexBuffer> square_vertex_buffer;
             square_vertex_buffer.reset(hazel::renderer::VertexBuffer::create(vertices, sizeof(vertices)));
             square_vertex_buffer->set_layout({
                 {hazel::renderer::ShaderDataType::FLOAT3, "a_Position"},
@@ -101,7 +101,7 @@ public:
 
             const unsigned int indices_len = 6;
             unsigned int indices[indices_len] = {0, 1, 2, 2, 3, 0};
-            std::shared_ptr<hazel::renderer::IndexBuffer> square_index_buffer;
+            hazel::Ref<hazel::renderer::IndexBuffer> square_index_buffer;
             square_index_buffer.reset(hazel::renderer::IndexBuffer::create(indices, indices_len));
             this->square_vertex_array->set_index_buffer(square_index_buffer);
 
@@ -178,8 +178,6 @@ public:
         this->square_shader->unbind();
 
         glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
-        // glm::vec4 red_color(0.8f, 0.2f, 0.3f, 1.0f);
-        // glm::vec4 blue_color(0.2f, 0.3f, 0.8f, 1.0f);
         for (int i = 0; i < 20; i++)
         {
             for (int j = 0; j < 20; j++)
@@ -192,7 +190,8 @@ public:
             }
         }
 
-        hazel::renderer::Renderer::submit(this->shader, this->vertex_array);
+        // Triangle
+        // hazel::renderer::Renderer::submit(this->shader, this->vertex_array);
 
         hazel::renderer::Renderer::end_scene();
     }
@@ -209,14 +208,14 @@ public:
     }
 
 private:
-    std::shared_ptr<hazel::renderer::Shader> shader;
-    std::shared_ptr<hazel::renderer::VertexArray> vertex_array;
+    hazel::Ref<hazel::renderer::Shader> shader;
+    hazel::Ref<hazel::renderer::VertexArray> vertex_array;
 
-    std::shared_ptr<hazel::renderer::Shader> square_shader;
-    std::shared_ptr<hazel::renderer::VertexArray> square_vertex_array;
-    glm::vec4 square_color = {0.2f, 0.3f, 0.8f};
+    hazel::Ref<hazel::renderer::Shader> square_shader;
+    hazel::Ref<hazel::renderer::VertexArray> square_vertex_array;
+    glm::vec3 square_color = {0.2f, 0.3f, 0.8f};
 
-    std::shared_ptr<hazel::camera::Orthographic> camera;
+    hazel::Ref<hazel::camera::Orthographic> camera;
     glm::vec3 camera_pos;
     float camera_pos_speed;
     float camera_rot;

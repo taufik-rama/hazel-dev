@@ -1,6 +1,5 @@
 #pragma once
 
-#include <hazel/core.hpp>
 #include <spdlog-pch.hpp>
 
 namespace hazel

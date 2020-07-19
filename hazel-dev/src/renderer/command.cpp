@@ -16,7 +16,7 @@ namespace hazel::renderer
         library->clear_color();
     }
 
-    void Command::draw_index(const std::shared_ptr<hazel::renderer::VertexArray> &va)
+    void Command::draw_index(const hazel::Ref<hazel::renderer::VertexArray> &va)
     {
         library->draw_index(va);
     }

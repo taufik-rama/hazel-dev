@@ -22,8 +22,8 @@ namespace hazel::renderer
         static void end_scene();
 
         static void submit(
-            const std::shared_ptr<Shader> &,
-            const std::shared_ptr<VertexArray> &,
+            const hazel::Ref<Shader> &,
+            const hazel::Ref<VertexArray> &,
             const glm::mat4 & = glm::mat4(1.0f));
 
     private:

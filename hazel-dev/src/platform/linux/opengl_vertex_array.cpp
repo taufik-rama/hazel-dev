@@ -45,7 +45,7 @@ namespace hazel::platform::linux
         gl_call(glBindVertexArray(0));
     }
 
-    void VertexArray::add_vertex_buffer(const std::shared_ptr<hazel::renderer::VertexBuffer> &buffer)
+    void VertexArray::add_vertex_buffer(const hazel::Ref<hazel::renderer::VertexBuffer> &buffer)
     {
         HAZEL_DEV_LOG_TRACE("Adding vertex buffer (id: {}) to vertex array (id: {})", *buffer, this->renderer_id);
 
@@ -76,12 +76,12 @@ namespace hazel::platform::linux
         buffer->unbind();
     }
 
-    const std::vector<std::shared_ptr<hazel::renderer::VertexBuffer>> &VertexArray::get_vertex_buffer() const
+    const std::vector<hazel::Ref<hazel::renderer::VertexBuffer>> &VertexArray::get_vertex_buffer() const
     {
         return this->vertex_buffers;
     }
 
-    void VertexArray::set_index_buffer(const std::shared_ptr<hazel::renderer::IndexBuffer> &buffer)
+    void VertexArray::set_index_buffer(const hazel::Ref<hazel::renderer::IndexBuffer> &buffer)
     {
         HAZEL_DEV_LOG_TRACE("Setting index buffer (id: {}) to vertex array (id: {})", *buffer, this->renderer_id);
         gl_call(glBindVertexArray(this->renderer_id));
@@ -90,7 +90,7 @@ namespace hazel::platform::linux
         buffer->unbind();
     }
 
-    const std::shared_ptr<hazel::renderer::IndexBuffer> &VertexArray::get_index_buffer() const
+    const hazel::Ref<hazel::renderer::IndexBuffer> &VertexArray::get_index_buffer() const
     {
         return this->index_buffer;
     }

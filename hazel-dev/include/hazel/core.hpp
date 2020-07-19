@@ -1,5 +1,6 @@
 #pragma once
 
+#include <hazel/memory.hpp>
 #include <hazel/logger.hpp>
 
 #include <std-pch.hpp>
