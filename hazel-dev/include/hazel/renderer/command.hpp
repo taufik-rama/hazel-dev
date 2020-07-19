@@ -17,6 +17,6 @@ namespace hazel::renderer
         static void draw_index(const hazel::Ref<VertexArray> &va);
 
     private:
-        static Library* library;
+        static hazel::Ref<Library> library;
     };
 } // namespace hazel::renderer

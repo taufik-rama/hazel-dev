@@ -4,7 +4,7 @@
 
 namespace hazel::renderer
 {
-    Library *Command::library = new hazel::platform::linux::Library();
+    hazel::Ref<Library> Command::library = std::make_shared<hazel::platform::linux::Library>();
 
     void Command::set_clear_color(const glm::vec4 &color)
     {

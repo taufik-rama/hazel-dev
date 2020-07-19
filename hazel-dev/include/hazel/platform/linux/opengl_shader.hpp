@@ -17,6 +17,8 @@ namespace hazel::platform::linux
 
         void unbind() const override;
 
+        void upload_uniform(const std::string &, const int &);
+
         void upload_uniform(const std::string &, const glm::vec3 &);
 
         void upload_uniform(const std::string &, const glm::vec4 &);

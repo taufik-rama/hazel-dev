@@ -1,11 +1,11 @@
-#include <hazel/renderer/vertex_array.hpp>
+#include <hazel/renderer/texture.hpp>
 
-#include <hazel/platform/linux/opengl_vertex_array.hpp>
+#include <hazel/platform/linux/opengl_texture.hpp>
 #include <hazel/renderer/library.hpp>
 
 namespace hazel::renderer
 {
-    hazel::Ref<VertexArray> VertexArray::create()
+    hazel::Ref<Texture2D> Texture2D::create(const std::string &path)
     {
         switch (Library::get_api_library())
         {
@@ -13,7 +13,7 @@ namespace hazel::renderer
             break;
 
         case Library::API::OPENGL:
-            return std::make_shared<hazel::platform::linux::VertexArray>();
+            return std::make_shared<hazel::platform::linux::Texture2D>(path);
         }
         assert(false);
     }

@@ -19,6 +19,6 @@ namespace hazel::renderer
 
         virtual const hazel::Ref<IndexBuffer> &get_index_buffer() const = 0;
 
-        static VertexArray *create();
+        static hazel::Ref<VertexArray> create();
     };
 } // namespace hazel::renderer

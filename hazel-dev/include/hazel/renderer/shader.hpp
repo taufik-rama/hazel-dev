@@ -2,8 +2,6 @@
 
 #include <hazel/core.hpp>
 
-// #include <glm/glm.hpp>
-
 namespace hazel::renderer
 {
     enum class ShaderDataType : unsigned int
@@ -40,11 +38,7 @@ namespace hazel::renderer
 
         virtual void unbind() const = 0;
 
-        // virtual void upload_uniform(const std::string &, const glm::mat4 &) = 0;
-
-        // virtual void upload_uniform(const std::string &, const glm::vec4 &) = 0;
-
-        static Shader *create(std::string &vertex_source, std::string &fragment_source);
+        static hazel::Ref<Shader> create(std::string &vertex_source, std::string &fragment_source);
 
         virtual std::string to_string() const = 0;
         FORMAT_TO_STRING(Shader)

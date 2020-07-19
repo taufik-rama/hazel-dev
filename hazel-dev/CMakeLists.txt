@@ -20,6 +20,7 @@ add_library(hazel-dev SHARED
     "src/platform/linux/opengl_library.cpp"
     "src/platform/linux/opengl_log.cpp"
     "src/platform/linux/opengl_shader.cpp"
+    "src/platform/linux/opengl_texture.cpp"
     "src/platform/linux/opengl_vertex_array.cpp"
     "src/platform/linux/window.cpp"
     "src/renderer/buffer.cpp"
@@ -27,10 +28,14 @@ add_library(hazel-dev SHARED
     "src/renderer/library.cpp"
     "src/renderer/renderer.cpp"
     "src/renderer/shader.cpp"
+    "src/renderer/texture.cpp"
     "src/renderer/vertex_array.cpp"
     "src/application.cpp"
     "src/entrypoint.cpp"
     "src/logger.cpp"
+
+    # stb_image.h implementation
+    "vendor/stb/image.cpp"
 )
 
 configure_file(meta.hpp.in "${CMAKE_SOURCE_DIR}/include/hazel/meta.hpp")
@@ -39,11 +44,13 @@ target_precompile_headers(hazel-dev
     PUBLIC
         "include/std-pch.hpp"
         "include/spdlog-pch.hpp"
+        "vendor/stb/image.h"
 )
 
 target_include_directories(hazel-dev
     PRIVATE 
         "include/"
+        "vendor/"
         "vendor/glfw/include/"
         "vendor/spdlog/include/"
         "../glm/"

@@ -5,7 +5,7 @@
 
 namespace hazel::renderer
 {
-    Shader *Shader::create(std::string &vertex_source, std::string &fragment_source)
+    hazel::Ref<Shader> Shader::create(std::string &vertex_source, std::string &fragment_source)
     {
         switch (Library::get_api_library())
         {
@@ -13,7 +13,7 @@ namespace hazel::renderer
             break;
 
         case Library::API::OPENGL:
-            return new hazel::platform::linux::Shader(vertex_source, fragment_source);
+            return std::make_shared<hazel::platform::linux::Shader>(vertex_source, fragment_source);
         }
         assert(false);
     }

@@ -8,6 +8,7 @@
                 "${workspaceFolder}/glm",
                 "${workspaceFolder}/hazel-dev/include",
                 "${workspaceFolder}/imgui",
+                "${workspaceFolder}/hazel-dev/vendor",
                 "${workspaceFolder}/hazel-dev/vendor/glfw/include",
                 "${workspaceFolder}/hazel-dev/vendor/spdlog/include"
             ],

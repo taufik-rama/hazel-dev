@@ -47,7 +47,7 @@ namespace hazel::renderer
         }
     }
 
-    VertexBuffer *VertexBuffer::create(float *vertices, size_t size)
+    hazel::Ref<VertexBuffer> VertexBuffer::create(float *vertices, size_t size)
     {
         switch (Library::get_api_library())
         {
@@ -55,12 +55,12 @@ namespace hazel::renderer
             break;
 
         case Library::API::OPENGL:
-            return new hazel::platform::linux::VertexBuffer(vertices, size);
+            return std::make_shared<hazel::platform::linux::VertexBuffer>(vertices, size);
         }
         assert(false);
     }
 
-    IndexBuffer *IndexBuffer::create(unsigned int *indices, size_t size)
+    hazel::Ref<IndexBuffer> IndexBuffer::create(unsigned int *indices, size_t size)
     {
         switch (Library::get_api_library())
         {
@@ -68,7 +68,7 @@ namespace hazel::renderer
             break;
 
         case Library::API::OPENGL:
-            return new hazel::platform::linux::IndexBuffer(indices, size);
+            return std::make_shared<hazel::platform::linux::IndexBuffer>(indices, size);
         }
         assert(false);
     }

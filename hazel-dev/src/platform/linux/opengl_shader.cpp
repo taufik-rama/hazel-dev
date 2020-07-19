@@ -129,6 +129,12 @@ namespace hazel::platform::linux
         glUseProgram(0);
     }
 
+    void Shader::upload_uniform(const std::string &name, const int &i) {
+        GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
+        ASSERT(location != -1, "uniform doesn't exists: " << name);
+        glUniform1i(location, i);
+    }
+
     void Shader::upload_uniform(const std::string &name, const glm::vec3 &vec)
     {
         GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
