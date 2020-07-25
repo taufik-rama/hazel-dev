@@ -4,7 +4,9 @@
 #include <hazel/event/window.hpp>
 #include <hazel/layer/collection.hpp>
 #include <hazel/layer/imgui.hpp>
+#include <hazel/renderer/renderer.hpp>
 
+// `glfwGetTime`
 #include <GLFW/glfw3.h>
 
 namespace hazel
@@ -20,6 +22,8 @@ namespace hazel
 
         this->window = Scope<Window>(Window::create());
         this->window->set_event_callback(std::bind(&Application::event_callback, this, std::placeholders::_1));
+
+        hazel::renderer::Renderer::init();
 
         this->imgui = new hazel::layer::ImGui();
         this->add_layer_overlay(this->imgui);

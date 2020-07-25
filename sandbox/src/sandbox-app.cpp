@@ -161,6 +161,8 @@ public:
                 this->texture_shader = hazel::renderer::Shader::create(vertex_source, fragment_source);
 
                 this->texture = hazel::renderer::Texture2D::create("../assets/textures/Checkerboard.png");
+                this->logo_texture = hazel::renderer::Texture2D::create("../assets/textures/ChernoLogo.png");
+
                 this->texture_shader->bind();
                 std::static_pointer_cast<hazel::platform::linux::Shader>(this->texture_shader)->upload_uniform("u_Texture", 0 /* texture slot */);
             }
@@ -228,6 +230,13 @@ public:
             glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
         this->texture->unbind(0);
 
+        this->logo_texture->bind(0);
+        hazel::renderer::Renderer::submit(
+            this->texture_shader,
+            this->square_vertex_array,
+            glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+        this->logo_texture->unbind(0);
+
         // Triangle
         // hazel::renderer::Renderer::submit(this->shader, this->vertex_array);
 
@@ -253,7 +262,7 @@ private:
     hazel::Ref<hazel::renderer::VertexArray> square_vertex_array;
     glm::vec3 square_color = {0.2f, 0.3f, 0.8f};
 
-    hazel::Ref<hazel::renderer::Texture> texture;
+    hazel::Ref<hazel::renderer::Texture> texture, logo_texture;
 
     hazel::Ref<hazel::camera::Orthographic> camera;
     glm::vec3 camera_pos;

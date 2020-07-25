@@ -6,6 +6,12 @@
 
 namespace hazel::platform::linux
 {
+    void Library::init()
+    {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
     void Library::set_clear_color(const glm::vec4 &color)
     {
         gl_call(glClearColor(color.r, color.g, color.b, color.a));

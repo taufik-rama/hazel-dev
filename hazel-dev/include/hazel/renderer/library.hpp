@@ -20,6 +20,8 @@ namespace hazel::renderer
             return api_library;
         }
 
+        virtual void init() = 0;
+
         virtual void set_clear_color(const glm::vec4 &color) = 0;
 
         virtual void clear_color() = 0;

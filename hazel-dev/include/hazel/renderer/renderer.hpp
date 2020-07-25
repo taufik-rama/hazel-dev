@@ -17,6 +17,8 @@ namespace hazel::renderer
             return Library::get_api_library();
         }
 
+        static void init();
+
         static void begin_scene(hazel::camera::Orthographic &);
 
         static void end_scene();

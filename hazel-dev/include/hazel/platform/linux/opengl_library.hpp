@@ -6,6 +6,8 @@ namespace hazel::platform::linux
 {
     class Library : public hazel::renderer::Library
     {
+        virtual void init() override;
+
         virtual void set_clear_color(const glm::vec4 &color) override;
 
         virtual void clear_color() override;

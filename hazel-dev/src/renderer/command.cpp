@@ -6,6 +6,11 @@ namespace hazel::renderer
 {
     hazel::Ref<Library> Command::library = std::make_shared<hazel::platform::linux::Library>();
 
+    void Command::init()
+    {
+        library->init();
+    }
+
     void Command::set_clear_color(const glm::vec4 &color)
     {
         library->set_clear_color(color);
