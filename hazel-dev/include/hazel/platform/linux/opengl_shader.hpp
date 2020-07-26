@@ -2,6 +2,7 @@
 
 #include <hazel/renderer/shader.hpp>
 
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 namespace hazel::platform::linux
@@ -9,7 +10,9 @@ namespace hazel::platform::linux
     class Shader : public hazel::renderer::Shader
     {
     public:
-        Shader(std::string &vertex_source, std::string &fragment_source);
+        Shader(const std::string &filepath);
+
+        Shader(const std::string &vertex_source, const std::string &fragment_source);
 
         virtual ~Shader();
 
@@ -28,6 +31,12 @@ namespace hazel::platform::linux
         virtual std::string to_string() const override;
 
     private:
+        std::string read_file(const std::string &);
+
+        std::unordered_map<GLenum, std::string> preprocess(const std::string &, const std::string &);
+
+        void compile(std::unordered_map<GLenum, std::string> &);
+
         unsigned int renderer_id;
     };
 } // namespace hazel::platform::linux

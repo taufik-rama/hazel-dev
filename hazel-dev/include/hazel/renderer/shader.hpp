@@ -38,7 +38,9 @@ namespace hazel::renderer
 
         virtual void unbind() const = 0;
 
-        static hazel::Ref<Shader> create(std::string &vertex_source, std::string &fragment_source);
+        static hazel::Ref<Shader> create(const std::string &filepath);
+
+        static hazel::Ref<Shader> create(const std::string &vertex_source, const std::string &fragment_source);
 
         virtual std::string to_string() const = 0;
         FORMAT_TO_STRING(Shader)
