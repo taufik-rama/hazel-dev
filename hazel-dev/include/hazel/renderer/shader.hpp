@@ -38,11 +38,51 @@ namespace hazel::renderer
 
         virtual void unbind() const = 0;
 
-        static hazel::Ref<Shader> create(const std::string &filepath);
+        static hazel::Ref<Shader> create(
+            const std::string &filepath);
 
-        static hazel::Ref<Shader> create(const std::string &vertex_source, const std::string &fragment_source);
+        static hazel::Ref<Shader> create(
+            const std::string &name,
+            const std::string &filepath);
+
+        static hazel::Ref<Shader> create(
+            const std::string &name,
+            const std::string &vertex_source,
+            const std::string &fragment_source);
+
+        virtual const std::string &get_name() const = 0;
 
         virtual std::string to_string() const = 0;
         FORMAT_TO_STRING(Shader)
+    };
+
+    class ShaderArray
+    {
+    public:
+        void add(
+            const hazel::Ref<Shader> &shader);
+
+        void add(
+            const std::string &name,
+            const hazel::Ref<Shader> &shader);
+
+        hazel::Ref<Shader> load(
+            const std::string &filepath);
+
+        hazel::Ref<Shader> load(
+            const std::string &name,
+            const std::string &filepath);
+
+        hazel::Ref<Shader> load(
+            const std::string &name,
+            const std::string &vertex_source,
+            const std::string &fragment_source);
+
+        hazel::Ref<Shader> get(const std::string &name);
+
+        bool exists(const std::string &name);
+
+    private:
+        std::unordered_map<std::string, hazel::Ref<Shader>> shaders;
     };
 } // namespace hazel::renderer

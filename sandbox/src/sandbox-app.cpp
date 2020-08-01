@@ -79,7 +79,7 @@ public:
                     color = v_Color;
                 }
             )";
-            this->shader = hazel::renderer::Shader::create(vertex_source, fragment_source);
+            this->shader_array.load("triangle_shader", vertex_source, fragment_source);
         }
 
         {
@@ -126,17 +126,18 @@ public:
                     color = vec4(u_Color, 1.0f);
                 }
             )";
-            this->square_shader = hazel::renderer::Shader::create(vertex_source, fragment_source);
+            this->shader_array.load("square_shader", vertex_source, fragment_source);
 
             // Texture
             {
-                this->texture_shader = hazel::renderer::Shader::create("../assets/shaders/texture.glsl");
-
                 this->texture = hazel::renderer::Texture2D::create("../assets/textures/Checkerboard.png");
                 this->logo_texture = hazel::renderer::Texture2D::create("../assets/textures/ChernoLogo.png");
 
-                this->texture_shader->bind();
-                std::static_pointer_cast<hazel::platform::linux::Shader>(this->texture_shader)->upload_uniform("u_Texture", 0 /* texture slot */);
+                auto texture_shader = hazel::renderer::Shader::create("../assets/shaders/texture.glsl");
+                texture_shader->bind();
+                std::static_pointer_cast<hazel::platform::linux::Shader>(texture_shader)->upload_uniform("u_Texture", 0 /* texture slot */);
+                texture_shader->unbind();
+                this->shader_array.add(texture_shader);
             }
         }
     }
@@ -178,9 +179,9 @@ public:
 
         hazel::renderer::Renderer::begin_scene(*this->camera);
 
-        this->square_shader->bind();
-        std::static_pointer_cast<hazel::platform::linux::Shader>(this->square_shader)->upload_uniform("u_Color", this->square_color);
-        this->square_shader->unbind();
+        this->shader_array.get("square_shader")->bind();
+        std::static_pointer_cast<hazel::platform::linux::Shader>(this->shader_array.get("square_shader"))->upload_uniform("u_Color", this->square_color);
+        this->shader_array.get("square_shader")->unbind();
 
         glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
         for (int i = 0; i < 20; i++)
@@ -189,7 +190,7 @@ public:
             {
                 glm::vec3 pos(i * 0.11f, j * 0.11f, 0.0f);
                 hazel::renderer::Renderer::submit(
-                    this->square_shader,
+                    this->shader_array.get("square_shader"),
                     this->square_vertex_array,
                     glm::translate(glm::mat4(1.0f), pos) * scale);
             }
@@ -197,20 +198,21 @@ public:
 
         this->texture->bind(0);
         hazel::renderer::Renderer::submit(
-            this->texture_shader,
+            this->shader_array.get("texture"),
             this->square_vertex_array,
             glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
         this->texture->unbind(0);
 
         this->logo_texture->bind(0);
         hazel::renderer::Renderer::submit(
-            this->texture_shader,
+            this->shader_array.get("texture"),
             this->square_vertex_array,
             glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
         this->logo_texture->unbind(0);
 
         // Triangle
         // hazel::renderer::Renderer::submit(this->shader, this->vertex_array);
+        hazel::renderer::Renderer::submit(this->shader_array.get("triangle_shader"), this->vertex_array);
 
         hazel::renderer::Renderer::end_scene();
     }
@@ -227,10 +229,12 @@ public:
     }
 
 private:
-    hazel::Ref<hazel::renderer::Shader> shader;
+    hazel::renderer::ShaderArray shader_array;
+
+    // hazel::Ref<hazel::renderer::Shader> shader;
     hazel::Ref<hazel::renderer::VertexArray> vertex_array;
 
-    hazel::Ref<hazel::renderer::Shader> square_shader, texture_shader;
+    // hazel::Ref<hazel::renderer::Shader> square_shader, texture_shader;
     hazel::Ref<hazel::renderer::VertexArray> square_vertex_array;
     glm::vec3 square_color = {0.2f, 0.3f, 0.8f};
 

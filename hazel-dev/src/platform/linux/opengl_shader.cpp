@@ -12,7 +12,7 @@ namespace hazel::platform::linux
 
     std::string Shader::read_file(const std::string &filepath)
     {
-        std::ifstream file(filepath, std::ios_base::in);
+        std::ifstream file(filepath, std::ios_base::in | std::ios_base::binary);
         ASSERT(file, "can't open file: " << filepath);
 
         file.seekg(0, std::ios::end);
@@ -119,14 +119,40 @@ namespace hazel::platform::linux
         return std::to_string(this->renderer_id);
     }
 
-    Shader::Shader(const std::string &filepath)
+    Shader::Shader(
+        const std::string &filepath)
+    {
+        {
+            // extract name
+            auto last_slash = filepath.find_last_of("/\\");
+            last_slash = (last_slash == std::string::npos) ? 0 : last_slash + 1;
+
+            auto last_dot = filepath.rfind('.');
+            auto name_count = (last_dot == std::string::npos) ? filepath.size() - last_slash : last_dot - last_slash;
+
+            this->name = filepath.substr(last_slash, name_count);
+        }
+
+        std::string contents = this->read_file(filepath);
+        auto sources = this->preprocess(filepath, contents);
+        this->compile(sources);
+    }
+
+    Shader::Shader(
+        const std::string &name,
+        const std::string &filepath)
+        : name(name)
     {
         std::string contents = this->read_file(filepath);
         auto sources = this->preprocess(filepath, contents);
         this->compile(sources);
     }
 
-    Shader::Shader(const std::string &vertex_source, const std::string &fragment_source)
+    Shader::Shader(
+        const std::string &name,
+        const std::string &vertex_source,
+        const std::string &fragment_source)
+        : name(name)
     {
         std::unordered_map<GLenum, std::string> sources = {
             {GL_VERTEX_SHADER, vertex_source},
@@ -147,6 +173,11 @@ namespace hazel::platform::linux
     void Shader::unbind() const
     {
         glUseProgram(0);
+    }
+
+    const std::string &Shader::get_name() const
+    {
+        return this->name;
     }
 
     void Shader::upload_uniform(const std::string &name, const int &i)

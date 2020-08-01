@@ -10,15 +10,25 @@ namespace hazel::platform::linux
     class Shader : public hazel::renderer::Shader
     {
     public:
-        Shader(const std::string &filepath);
+        Shader(
+            const std::string &filepath);
 
-        Shader(const std::string &vertex_source, const std::string &fragment_source);
+        Shader(
+            const std::string &name,
+            const std::string &filepath);
+
+        Shader(
+            const std::string &name,
+            const std::string &vertex_source,
+            const std::string &fragment_source);
 
         virtual ~Shader();
 
-        void bind() const override;
+        virtual void bind() const override;
 
-        void unbind() const override;
+        virtual void unbind() const override;
+
+        virtual const std::string &get_name() const override;
 
         void upload_uniform(const std::string &, const int &);
 
@@ -38,5 +48,7 @@ namespace hazel::platform::linux
         void compile(std::unordered_map<GLenum, std::string> &);
 
         unsigned int renderer_id;
+
+        std::string name;
     };
 } // namespace hazel::platform::linux
