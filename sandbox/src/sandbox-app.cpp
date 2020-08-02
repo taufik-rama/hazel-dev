@@ -11,18 +11,16 @@ class ExampleLayer : public hazel::layer::Layer
 public:
     ExampleLayer()
         : hazel::layer::Layer("Sandbox Example Layer"),
-          camera_pos(0.0f),
-          camera_pos_speed(5.0f),
-          camera_rot(0.0f),
-          camera_rot_speed(180.0f)
+          camera_controller((float)16 / (float)9, true) // 16:9 aspect ratio
     {
         // Set the vsync to false so that we're able to see the actual framerate.
         // The app should feel/run normal whether this is on or off
         hazel::Application::get_application()->get_window().set_vsync(false);
 
-        // 16:9 aspect ratio
-        this->camera.reset(new hazel::camera::Orthographic(-1.6f, 1.6f, -0.9f, 0.9f));
-        this->camera->set_translation_rotation(hazel::camera::Orthographic::TRANSLATION_ROTATION::TRANSLATE_BEFORE_ROTATE);
+        // Set camera translation & rotation behaviour.
+        // For 2D/Orthogonal camera, pick which one is translated first,
+        // the position or rotation (result will be different)
+        this->camera_controller.get_camera().set_translation_rotation(hazel::camera::Orthographic::TRANSLATION_ROTATION::TRANSLATE_BEFORE_ROTATE);
 
         this->vertex_array = hazel::renderer::VertexArray::create();
         {
@@ -86,10 +84,10 @@ public:
             this->square_vertex_array = hazel::renderer::VertexArray::create();
 
             float vertices[4 * 5] = {
-                -0.5f, -0.5f, 0.0f, /* texture */ 0.0f, 0.0f, // 0
-                0.5f, -0.5f, 0.0f, /* texture */ 1.0f, 0.0f,  // 1
-                0.5f, 0.5f, 0.0f, /* texture */ 1.0f, 1.0f,   // 2
-                -0.5f, 0.5f, 0.0f, /* texture */ 0.0f, 1.0f,  // 3
+                -0.5f, -0.5f, 0.0f, /* <- position, texture -> */ 0.0f, 0.0f, // 0
+                0.5f, -0.5f, 0.0f, /* <- position, texture -> */ 1.0f, 0.0f,  // 1
+                0.5f, 0.5f, 0.0f, /* <- position, texture -> */ 1.0f, 1.0f,   // 2
+                -0.5f, 0.5f, 0.0f, /* <- position, texture -> */ 0.0f, 1.0f,  // 3
             };
             hazel::Ref<hazel::renderer::VertexBuffer> square_vertex_buffer;
             square_vertex_buffer = hazel::renderer::VertexBuffer::create(vertices, sizeof(vertices));
@@ -128,9 +126,9 @@ public:
             )";
             this->shader_array.load("square_shader", vertex_source, fragment_source);
 
-            // Texture
+            // Textures
             {
-                this->texture = hazel::renderer::Texture2D::create("../assets/textures/Checkerboard.png");
+                this->checkerboard_texture = hazel::renderer::Texture2D::create("../assets/textures/Checkerboard.png");
                 this->logo_texture = hazel::renderer::Texture2D::create("../assets/textures/ChernoLogo.png");
 
                 auto texture_shader = hazel::renderer::Shader::create("../assets/shaders/texture.glsl");
@@ -144,43 +142,15 @@ public:
 
     void on_update(hazel::core::Timestep ts) override
     {
-        if (hazel::input::Input::is_key_pressed(HAZEL_KEY_W))
-        {
-            this->camera_pos.y += this->camera_pos_speed * ts;
-        }
-        else if (hazel::input::Input::is_key_pressed(HAZEL_KEY_S))
-        {
-            this->camera_pos.y -= this->camera_pos_speed * ts;
-        }
-
-        if (hazel::input::Input::is_key_pressed(HAZEL_KEY_A))
-        {
-            this->camera_pos.x -= this->camera_pos_speed * ts;
-        }
-        else if (hazel::input::Input::is_key_pressed(HAZEL_KEY_D))
-        {
-            this->camera_pos.x += this->camera_pos_speed * ts;
-        }
-
-        if (hazel::input::Input::is_key_pressed(HAZEL_KEY_O))
-        {
-            this->camera_rot += this->camera_rot_speed * ts;
-        }
-        else if (hazel::input::Input::is_key_pressed(HAZEL_KEY_P))
-        {
-            this->camera_rot -= this->camera_rot_speed * ts;
-        }
+        this->camera_controller.on_update(ts);
 
         hazel::renderer::Command::set_clear_color({0.2, 0.2, 0.2, 1});
         hazel::renderer::Command::clear_color();
 
-        this->camera->set_position(this->camera_pos);
-        this->camera->set_rotation(this->camera_rot);
-
-        hazel::renderer::Renderer::begin_scene(*this->camera);
+        hazel::renderer::Renderer::begin_scene(this->camera_controller.get_camera());
 
         this->shader_array.get("square_shader")->bind();
-        std::static_pointer_cast<hazel::platform::linux::Shader>(this->shader_array.get("square_shader"))->upload_uniform("u_Color", this->square_color);
+        std::static_pointer_cast<hazel::platform::linux::Shader>(this->shader_array.get("square_shader"))->upload_uniform("u_Color", this->square_array);
         this->shader_array.get("square_shader")->unbind();
 
         glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
@@ -196,12 +166,12 @@ public:
             }
         }
 
-        this->texture->bind(0);
+        this->checkerboard_texture->bind(0);
         hazel::renderer::Renderer::submit(
             this->shader_array.get("texture"),
             this->square_vertex_array,
             glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-        this->texture->unbind(0);
+        this->checkerboard_texture->unbind(0);
 
         this->logo_texture->bind(0);
         hazel::renderer::Renderer::submit(
@@ -211,7 +181,6 @@ public:
         this->logo_texture->unbind(0);
 
         // Triangle
-        // hazel::renderer::Renderer::submit(this->shader, this->vertex_array);
         hazel::renderer::Renderer::submit(this->shader_array.get("triangle_shader"), this->vertex_array);
 
         hazel::renderer::Renderer::end_scene();
@@ -220,31 +189,25 @@ public:
     virtual void on_imgui_render() override
     {
         ImGui::Begin("Settings");
-        ImGui::ColorEdit3("Square Color", glm::value_ptr(this->square_color));
+        ImGui::ColorEdit3("Square Array Color", glm::value_ptr(this->square_array));
         ImGui::End();
     }
 
-    void on_event(hazel::event::Event &) override
+    void on_event(hazel::event::Event &e) override
     {
+        this->camera_controller.on_event(e);
     }
 
 private:
     hazel::renderer::ShaderArray shader_array;
 
-    // hazel::Ref<hazel::renderer::Shader> shader;
     hazel::Ref<hazel::renderer::VertexArray> vertex_array;
-
-    // hazel::Ref<hazel::renderer::Shader> square_shader, texture_shader;
     hazel::Ref<hazel::renderer::VertexArray> square_vertex_array;
-    glm::vec3 square_color = {0.2f, 0.3f, 0.8f};
+    hazel::Ref<hazel::renderer::Texture> checkerboard_texture, logo_texture;
 
-    hazel::Ref<hazel::renderer::Texture> texture, logo_texture;
+    hazel::camera::OrthographicController camera_controller;
 
-    hazel::Ref<hazel::camera::Orthographic> camera;
-    glm::vec3 camera_pos;
-    float camera_pos_speed;
-    float camera_rot;
-    float camera_rot_speed;
+    glm::vec3 square_array = {0.2f, 0.3f, 0.8f};
 };
 
 class Sandbox : public hazel::Application

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <hazel/camera/orthographic.hpp>
+#include <hazel/camera/orthographic_controller.hpp>
 
 #include <hazel/core/timestep.hpp>
 

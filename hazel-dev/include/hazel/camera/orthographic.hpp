@@ -9,6 +9,8 @@ namespace hazel::camera
     public:
         Orthographic(float left, float right, float bottom, float top);
 
+        void set_projection(float left, float right, float bottom, float top);
+
         void set_position(const glm::vec3 &pos);
 
         const glm::vec3 &get_position() const;
@@ -19,9 +21,15 @@ namespace hazel::camera
 
         const glm::mat4 &get_projection_view_matrix() const;
 
+        void set_projection_view_matrix();
+
         const glm::mat4 &get_projection_matrix() const;
 
+        void set_projection_matrix();
+
         const glm::mat4 &get_view_matrix() const;
+
+        void set_view_matrix();
 
         enum class TRANSLATION_ROTATION
         {

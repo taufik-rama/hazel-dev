@@ -11,6 +11,12 @@ namespace hazel::camera
         this->projection_view_matrix = this->projection_matrix * this->view_matrix;
     }
 
+    void Orthographic::set_projection(float left, float right, float bottom, float top)
+    {
+        this->projection_matrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+        this->projection_view_matrix = this->projection_matrix * this->view_matrix;
+    }
+
     void Orthographic::set_position(const glm::vec3 &pos)
     {
         this->current_position = pos;
