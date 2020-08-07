@@ -34,6 +34,27 @@ namespace hazel::event
         int width, height;
     };
 
+    class WindowMinimizeEvent : public Event
+    {
+    public:
+        WindowMinimizeEvent(bool minimized) : minimized(minimized) {}
+
+        bool is_minimized() const { return this->minimized; }
+
+        std::string to_string() const override
+        {
+            std::stringstream ss;
+            ss << "WindowMinimizeEvent: minimized: " << this->minimized;
+            return ss.str();
+        }
+
+        EVENT_TYPE_CATEGORY_METHODS(EventTypeCategorySet1(EventTypeCategory::WINDOW))
+        EVENT_TYPE_METHODS(WINDOW_MINIMIZE)
+
+    private:
+        bool minimized;
+    };
+
     class WindowFocusEvent : public Event
     {
     };

@@ -15,7 +15,7 @@ namespace hazel::input
 
         static std::pair<float, float> get_mouse_pos() { return instance->get_mouse_pos_impl(); }
 
-        static void set_instance(Input* i) { instance = i; }
+        static void set_instance(Input *i) { instance = i; }
 
     protected:
         virtual bool is_key_pressed_impl(unsigned int) = 0;
@@ -27,4 +27,4 @@ namespace hazel::input
     private:
         static Input *instance;
     };
-} // namespace hazel
+} // namespace hazel::input

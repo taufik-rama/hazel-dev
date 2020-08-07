@@ -14,6 +14,8 @@ namespace hazel::renderer
 
         static void set_clear_color(const glm::vec4 &color);
 
+        static void set_viewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
+
         static void clear_color();
 
         static void draw_index(const hazel::Ref<VertexArray> &va);

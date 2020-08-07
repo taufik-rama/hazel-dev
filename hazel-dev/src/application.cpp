@@ -1,7 +1,6 @@
 #include <hazel/application.hpp>
 
 #include <hazel/core/timestep.hpp>
-#include <hazel/event/window.hpp>
 #include <hazel/layer/collection.hpp>
 #include <hazel/layer/imgui.hpp>
 #include <hazel/renderer/renderer.hpp>
@@ -21,7 +20,7 @@ namespace hazel
         this->layers = new hazel::layer::Collection();
 
         this->window = Scope<Window>(Window::create());
-        this->window->set_event_callback(std::bind(&Application::event_callback, this, std::placeholders::_1));
+        this->window->set_event_callback(EVENT_BIND_METHOD_1(Application::event_callback));
 
         hazel::renderer::Renderer::init();
 
@@ -35,6 +34,8 @@ namespace hazel
     {
         hazel::event::EventDispatcher dispatcher(e);
         dispatcher.dispatch<hazel::event::WindowCloseEvent>(EVENT_BIND_METHOD_1(Application::window_close_event_callback));
+        dispatcher.dispatch<hazel::event::WindowResizeEvent>(EVENT_BIND_METHOD_1(Application::window_resize_event_callback));
+        dispatcher.dispatch<hazel::event::WindowMinimizeEvent>(EVENT_BIND_METHOD_1(Application::window_minimize_event_callback));
 
         // Handle for each layers
         for (auto it = this->layers->end(); it != this->layers->begin();)
@@ -48,10 +49,27 @@ namespace hazel
         }
     }
 
-    bool Application::window_close_event_callback(hazel::event::Event &)
+    bool Application::window_close_event_callback(hazel::event::WindowCloseEvent &)
     {
-        this->is_instace_running = false;
+        this->is_running = false;
         return true;
+    }
+
+    bool Application::window_resize_event_callback(hazel::event::WindowResizeEvent &e)
+    {
+        hazel::renderer::Renderer::resize_window(e.get_width(), e.get_height());
+        return false;
+    }
+
+    bool Application::window_minimize_event_callback(hazel::event::WindowMinimizeEvent &e)
+    {
+        if (e.is_minimized())
+        {
+            this->is_minimized = true;
+            return false;
+        }
+        this->is_minimized = false;
+        return false;
     }
 
     void Application::add_layer(hazel::layer::Layer *layer)
@@ -68,16 +86,19 @@ namespace hazel
 
     void Application::run()
     {
-        this->is_instace_running = true;
-        while (this->is_instace_running)
+        this->is_running = true;
+        while (this->is_running)
         {
             float time = glfwGetTime();
             hazel::core::Timestep ts(time - this->last_frame_duration);
             this->last_frame_duration = time;
 
-            for (auto layer : *this->layers)
+            if (!this->is_minimized)
             {
-                layer->on_update(ts);
+                for (auto layer : *this->layers)
+                {
+                    layer->on_update(ts);
+                }
             }
 
             this->imgui->begin();

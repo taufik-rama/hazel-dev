@@ -39,4 +39,9 @@ namespace hazel::renderer
 
         shader->unbind();
     }
+
+    void Renderer::resize_window(unsigned int width, unsigned int height)
+    {
+        Command::set_viewport(0, 0, width, height);
+    }
 } // namespace hazel::renderer

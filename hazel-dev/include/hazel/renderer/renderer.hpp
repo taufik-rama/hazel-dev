@@ -23,6 +23,8 @@ namespace hazel::renderer
 
         static void end_scene();
 
+        static void resize_window(unsigned int width, unsigned int height);
+
         static void submit(
             const hazel::Ref<Shader> &,
             const hazel::Ref<VertexArray> &,

@@ -24,6 +24,8 @@ namespace hazel::renderer
 
         virtual void set_clear_color(const glm::vec4 &color) = 0;
 
+        virtual void set_viewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) = 0;
+
         virtual void clear_color() = 0;
 
         virtual void draw_index(const hazel::Ref<VertexArray> &va) = 0;

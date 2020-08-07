@@ -13,5 +13,7 @@ namespace hazel::platform::linux
         virtual void clear_color() override;
 
         virtual void draw_index(const hazel::Ref<hazel::renderer::VertexArray> &va) override;
+
+        virtual void set_viewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) override;
     };
 } // namespace hazel::platform::linux

@@ -25,4 +25,9 @@ namespace hazel::renderer
     {
         library->draw_index(va);
     }
+
+    void Command::set_viewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+    {
+        library->set_viewport(x, y, width, height);
+    }
 } // namespace hazel::renderer

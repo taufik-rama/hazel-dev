@@ -74,6 +74,18 @@ namespace hazel::platform::linux
             data.event_callback(e);
         });
 
+        glfwSetWindowIconifyCallback(this->window, [](GLFWwindow *window, int iconified) {
+            WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
+
+            hazel::event::WindowMinimizeEvent e(iconified);
+            data.event_callback(e);
+        });
+
+        // ::TODO::
+        // glfwSetWindowMaximizeCallback(this->window, [](GLFWwindow* window, int maximized) {
+        //     WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
+        // });
+
         glfwSetWindowCloseCallback(this->window, [](GLFWwindow *window) {
             WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
             hazel::event::WindowCloseEvent e;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <hazel/event/window.hpp>
 #include <hazel/layer/_fwd.hpp>
 #include <hazel/core.hpp>
 #include <hazel/window.hpp>
@@ -26,14 +27,19 @@ namespace hazel
         Window &get_window() { return *this->window; };
 
     private:
-        bool window_close_event_callback(hazel::event::Event &);
+        bool window_close_event_callback(hazel::event::WindowCloseEvent &);
+
+        bool window_resize_event_callback(hazel::event::WindowResizeEvent &);
+
+        bool window_minimize_event_callback(hazel::event::WindowMinimizeEvent &);
 
         Scope<Window> window;
         hazel::layer::Collection *layers;
         hazel::layer::ImGui *imgui;
 
         static Application *instance;
-        bool is_instace_running;
+        bool is_running = true;
+        bool is_minimized = false;
         float last_frame_duration = 0.0f;
     };
 

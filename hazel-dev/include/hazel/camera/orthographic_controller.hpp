@@ -19,6 +19,10 @@ namespace hazel::camera
 
         void on_event(hazel::event::Event &);
 
+        float get_zoom_level() { return this->zoom_level; }
+
+        void set_zoom_level(float level) { this->zoom_level = level; }
+
     private:
         bool on_mouse_scroll(hazel::event::MouseScrollEvent &);
 

@@ -26,4 +26,9 @@ namespace hazel::platform::linux
     {
         gl_call(glDrawElements(GL_TRIANGLES, va->get_index_buffer()->get_count(), GL_UNSIGNED_INT, nullptr));
     }
+
+    void Library::set_viewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+    {
+        gl_call(glViewport(x, y, width, height));
+    }
 } // namespace hazel::platform::linux

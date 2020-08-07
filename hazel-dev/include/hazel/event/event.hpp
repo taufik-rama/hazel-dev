@@ -23,6 +23,7 @@ namespace hazel::event
         NONE = 0,
         WINDOW_CLOSE,
         WINDOW_RESIZE,
+        WINDOW_MINIMIZE,
         WINDOW_FOCUS,
         WINDOW_LOST_FOCUS,
         WINDOW_MOVE,
@@ -53,7 +54,6 @@ namespace hazel::event
         friend class EventDispatcher;
 
     public:
-
         virtual EventType get_event_type() const = 0;
 
         virtual unsigned int get_event_type_categories() const = 0;
