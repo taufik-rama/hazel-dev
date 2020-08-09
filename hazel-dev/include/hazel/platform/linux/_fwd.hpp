@@ -1,8 +1,7 @@
 #pragma once
 
-namespace hazel::platform::linux
-{
-    class VertexBuffer;
+namespace hazel::platform::linux {
+class VertexBuffer;
 
-    class IndexBuffer;
-}
+class IndexBuffer;
+} // namespace hazel::platform::linux

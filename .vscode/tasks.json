@@ -1,0 +1,47 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build all",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build hazel-dev",
+                "Build sandbox"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build hazel-dev",
+            "type": "shell",
+            "command": "cmake .. && ninja",
+            "options": {
+                "cwd": "hazel-dev/build",
+                "env": {
+                    "CMAKE_GENERATOR": "Ninja",
+                }
+            }
+        },
+        {
+            "label": "Build sandbox",
+            "type": "shell",
+            "command": "cmake .. && ninja",
+            "options": {
+                "cwd": "sandbox/build",
+                "env": {
+                    "CMAKE_GENERATOR": "Ninja",
+                }
+            }
+        },
+        {
+            "label": "Format all",
+            "type": "process",
+            "command": "./format.sh",
+            "options": {
+                "cwd": "scripts"
+            }
+        }
+    ]
+}

@@ -2,24 +2,22 @@
 
 #include <hazel/layer/layer.hpp>
 
-namespace hazel::layer
-{
-    class ImGui : public Layer
-    {
-    public:
-        ImGui();
+namespace hazel::layer {
+class ImGui : public Layer {
+public:
+  ImGui();
 
-        virtual void on_attach() override;
+  virtual void on_attach() override;
 
-        virtual void on_detach() override;
+  virtual void on_detach() override;
 
-        virtual void on_imgui_render() override;
+  virtual void on_imgui_render() override;
 
-        void begin();
+  void begin();
 
-        void end();
+  void end();
 
-    private:
-        float time = 0.0f;
-    };
+private:
+  float time = 0.0f;
+};
 } // namespace hazel::layer

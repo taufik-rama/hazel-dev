@@ -9,6 +9,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(HazelDev VERSION 0.0.1)
 
 add_library(hazel-dev SHARED 
+    "src/core/application.cpp"
+    "src/core/entrypoint.cpp"
+    "src/core/logger.cpp"
     "src/camera/orthographic.cpp"
     "src/camera/orthographic_controller.cpp"
     "src/input/input.cpp"
@@ -31,9 +34,6 @@ add_library(hazel-dev SHARED
     "src/renderer/shader.cpp"
     "src/renderer/texture.cpp"
     "src/renderer/vertex_array.cpp"
-    "src/application.cpp"
-    "src/entrypoint.cpp"
-    "src/logger.cpp"
 
     # stb_image.h implementation
     "vendor/stb/image.cpp"

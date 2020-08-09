@@ -1,6 +1,5 @@
 #pragma once
 
-namespace hazel::camera
-{
-    class Orthographic;
+namespace hazel::camera {
+class Orthographic;
 }

@@ -1,10 +1,9 @@
 #pragma once
 
-namespace hazel::layer
-{
-    class Collection;
+namespace hazel::layer {
+class Collection;
 
-    class ImGui;
+class ImGui;
 
-    class Layer;
+class Layer;
 } // namespace hazel::layer

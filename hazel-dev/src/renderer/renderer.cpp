@@ -4,44 +4,36 @@
 #include <hazel/platform/linux/opengl_shader.hpp>
 #include <hazel/renderer/command.hpp>
 
-namespace hazel::renderer
-{
-    Renderer::SceneData Renderer::scene_data;
+namespace hazel::renderer {
+Renderer::SceneData Renderer::scene_data;
 
-    void Renderer::init()
-    {
-        Command::init();
-    }
+void Renderer::init() { Command::init(); }
 
-    void Renderer::begin_scene(hazel::camera::Orthographic &camera)
-    {
-        scene_data.projection_view_matrix = camera.get_projection_view_matrix();
-    }
+void Renderer::begin_scene(hazel::camera::Orthographic &camera) {
+  scene_data.projection_view_matrix = camera.get_projection_view_matrix();
+}
 
-    void Renderer::end_scene()
-    {
-    }
+void Renderer::end_scene() {}
 
-    void Renderer::submit(
-        const hazel::Ref<Shader> &shader,
-        const hazel::Ref<VertexArray> &va,
-        const glm::mat4 &transform)
-    {
-        shader->bind();
-        std::static_pointer_cast<hazel::platform::linux::Shader>(shader)->upload_uniform("u_ViewProjection", scene_data.projection_view_matrix);
-        std::static_pointer_cast<hazel::platform::linux::Shader>(shader)->upload_uniform("u_Transform", transform);
+void Renderer::submit(const hazel::core::Ref<Shader> &shader,
+                      const hazel::core::Ref<VertexArray> &va,
+                      const glm::mat4 &transform) {
+  shader->bind();
+  std::static_pointer_cast<hazel::platform::linux::Shader>(shader)
+      ->upload_uniform("u_ViewProjection", scene_data.projection_view_matrix);
+  std::static_pointer_cast<hazel::platform::linux::Shader>(shader)
+      ->upload_uniform("u_Transform", transform);
 
-        va->bind();
-        va->get_index_buffer()->bind();
-        Command::draw_index(va);
-        va->unbind();
-        va->get_index_buffer()->unbind();
+  va->bind();
+  va->get_index_buffer()->bind();
+  Command::draw_index(va);
+  va->unbind();
+  va->get_index_buffer()->unbind();
 
-        shader->unbind();
-    }
+  shader->unbind();
+}
 
-    void Renderer::resize_window(unsigned int width, unsigned int height)
-    {
-        Command::set_viewport(0, 0, width, height);
-    }
+void Renderer::resize_window(unsigned int width, unsigned int height) {
+  Command::set_viewport(0, 0, width, height);
+}
 } // namespace hazel::renderer

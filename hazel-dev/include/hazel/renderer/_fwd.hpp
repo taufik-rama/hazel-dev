@@ -1,14 +1,13 @@
 #pragma once
 
-namespace hazel::renderer
-{
-    class BufferLayout;
+namespace hazel::renderer {
+class BufferLayout;
 
-    class VertexBuffer;
+class VertexBuffer;
 
-    class IndexBuffer;
+class IndexBuffer;
 
-    class Shader;
+class Shader;
 
-    class VertexArray;
+class VertexArray;
 } // namespace hazel::renderer
