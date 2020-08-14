@@ -10,6 +10,8 @@ class Command {
 public:
   static void init();
 
+  static void shutdown();
+
   static void set_clear_color(const glm::vec4 &color);
 
   static void set_viewport(unsigned int x, unsigned int y, unsigned int width,

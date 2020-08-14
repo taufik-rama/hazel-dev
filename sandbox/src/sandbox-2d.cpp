@@ -9,33 +9,7 @@ Sandbox2D::Sandbox2D()
 
 Sandbox2D::~Sandbox2D() {}
 
-void Sandbox2D::on_attach() {
-  this->vertex_array = hazel::renderer::VertexArray::create();
-
-  float vertices[4 * 5] = {
-      -0.5f, -0.5f, 0.0f, // 0
-      0.5f,  -0.5f, 0.0f, // 1
-      0.5f,  0.5f,  0.0f, // 2
-      -0.5f, 0.5f,  0.0f, // 3
-  };
-  hazel::core::Ref<hazel::renderer::VertexBuffer> square_vertex_buffer;
-  square_vertex_buffer =
-      hazel::renderer::VertexBuffer::create(vertices, sizeof(vertices));
-  square_vertex_buffer->set_layout({
-      {hazel::renderer::ShaderDataType::FLOAT3, "a_Position"},
-  });
-  this->vertex_array->add_vertex_buffer(square_vertex_buffer);
-
-  const unsigned int indices_len = 6;
-  unsigned int indices[indices_len] = {0, 1, 2, 2, 3, 0};
-  hazel::core::Ref<hazel::renderer::IndexBuffer> square_index_buffer;
-  square_index_buffer =
-      hazel::renderer::IndexBuffer::create(indices, indices_len);
-  this->vertex_array->set_index_buffer(square_index_buffer);
-
-  this->shader =
-      hazel::renderer::Shader::create("../assets/shaders/flat-color.glsl");
-}
+void Sandbox2D::on_attach() {}
 
 void Sandbox2D::on_detach() {}
 
@@ -45,16 +19,13 @@ void Sandbox2D::on_update(hazel::core::Timestep ts) {
   hazel::renderer::Command::set_clear_color({0.2, 0.2, 0.2, 1});
   hazel::renderer::Command::clear_color();
 
-  hazel::renderer::Renderer::begin_scene(this->camera_controller.get_camera());
+  hazel::renderer::Renderer2D::begin_scene(
+      this->camera_controller.get_camera());
 
-  this->shader->bind();
-  std::static_pointer_cast<hazel::platform::linux::Shader>(this->shader)
-      ->upload_uniform("u_Color", this->square_array);
-  this->shader->unbind();
+  hazel::renderer::Renderer2D::draw_quad({-0.6f, 0.4f}, {1.0f, 1.4f},
+                                         {0.8f, 0.2f, 0.3f, 1.0f});
 
-  hazel::renderer::Renderer::submit(this->shader, this->vertex_array);
-
-  hazel::renderer::Renderer::end_scene();
+  hazel::renderer::Renderer2D::end_scene();
 }
 
 void Sandbox2D::on_event(hazel::event::Event &e) {

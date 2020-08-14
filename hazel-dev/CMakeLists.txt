@@ -31,6 +31,7 @@ add_library(hazel-dev SHARED
     "src/renderer/command.cpp"
     "src/renderer/library.cpp"
     "src/renderer/renderer.cpp"
+    "src/renderer/renderer2D.cpp"
     "src/renderer/shader.cpp"
     "src/renderer/texture.cpp"
     "src/renderer/vertex_array.cpp"

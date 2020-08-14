@@ -21,4 +21,5 @@
 
 #include <hazel/renderer/command.hpp>
 #include <hazel/renderer/renderer.hpp>
+#include <hazel/renderer/renderer2D.hpp>
 #include <hazel/renderer/texture.hpp>

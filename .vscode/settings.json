@@ -2,6 +2,13 @@
     "cmake.configureOnOpen": false,
     "files.associations": {
         "bitset": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "*.tcc": "cpp",
+        "unordered_map": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "numeric": "cpp",
+        "ostream": "cpp",
+        "sstream": "cpp"
     }
 }

@@ -4,6 +4,7 @@
 #include <hazel/layer/collection.hpp>
 #include <hazel/layer/imgui.hpp>
 #include <hazel/renderer/renderer.hpp>
+#include <hazel/renderer/renderer2D.hpp>
 
 // `glfwGetTime`
 #include <GLFW/glfw3.h>
@@ -22,12 +23,16 @@ Application::Application() {
       EVENT_BIND_METHOD_1(Application::event_callback));
 
   hazel::renderer::Renderer::init();
+  hazel::renderer::Renderer2D::init();
 
   this->imgui = new hazel::layer::ImGui();
   this->add_layer_overlay(this->imgui);
 }
 
-Application::~Application() {}
+Application::~Application() {
+  hazel::renderer::Renderer::shutdown();
+  hazel::renderer::Renderer2D::shutdown();
+}
 
 void Application::event_callback(hazel::event::Event &e) {
   hazel::event::EventDispatcher dispatcher(e);

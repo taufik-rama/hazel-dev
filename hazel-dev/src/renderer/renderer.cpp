@@ -9,6 +9,8 @@ Renderer::SceneData Renderer::scene_data;
 
 void Renderer::init() { Command::init(); }
 
+void Renderer::shutdown() { Command::shutdown(); }
+
 void Renderer::begin_scene(hazel::camera::Orthographic &camera) {
   scene_data.projection_view_matrix = camera.get_projection_view_matrix();
 }

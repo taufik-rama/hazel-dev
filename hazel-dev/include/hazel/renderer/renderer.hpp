@@ -14,6 +14,8 @@ public:
 
   static void init();
 
+  static void shutdown();
+
   static void begin_scene(hazel::camera::Orthographic &);
 
   static void end_scene();

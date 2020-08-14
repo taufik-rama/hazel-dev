@@ -20,9 +20,5 @@ public:
 
 private:
   glm::vec4 square_array = {0.2f, 0.3f, 0.8f, 1.0f};
-
-  hazel::core::Ref<hazel::renderer::VertexArray> vertex_array;
-  hazel::core::Ref<hazel::renderer::Shader> shader;
-
   hazel::camera::OrthographicController camera_controller;
 };

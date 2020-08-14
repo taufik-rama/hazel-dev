@@ -8,6 +8,8 @@ hazel::core::Ref<Library> Command::library =
 
 void Command::init() { library->init(); }
 
+void Command::shutdown() {} /* noop */
+
 void Command::set_clear_color(const glm::vec4 &color) {
   library->set_clear_color(color);
 }
