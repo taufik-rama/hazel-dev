@@ -9,11 +9,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(Sandbox)
 
 add_executable(sandbox 
+    "src/sandbox-2d.cpp"
     "src/sandbox-app.cpp"
 )
 
 target_include_directories(sandbox
     PRIVATE 
+        "include/"
         "../hazel-dev/include/"
         "../hazel-dev/vendor/glfw/include/"
         "../hazel-dev/vendor/spdlog/include/"

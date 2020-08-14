@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <sandbox-2d.hpp>
+
 #include <hazel-api.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -52,33 +54,33 @@ public:
 
     {
       std::string vertex_source = R"(
-                #version 450 core
-                layout(location = 0) in vec3 a_Position;
-                layout(location = 1) in vec4 a_Color;
+          #version 450 core
+          layout(location = 0) in vec3 a_Position;
+          layout(location = 1) in vec4 a_Color;
 
-                uniform mat4 u_ViewProjection;
-                uniform mat4 u_Transform;
-                
-                out vec3 v_Position;
-                out vec4 v_Color;
+          uniform mat4 u_ViewProjection;
+          uniform mat4 u_Transform;
+          
+          out vec3 v_Position;
+          out vec4 v_Color;
 
-                void main() {
-                    v_Position = a_Position;
-                    v_Color = a_Color;
-                    gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-                }
-            )";
+          void main() {
+              v_Position = a_Position;
+              v_Color = a_Color;
+              gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+          }
+      )";
       std::string fragment_source = R"(
-                #version 450 core
-                layout(location = 0) out vec4 color;
+          #version 450 core
+          layout(location = 0) out vec4 color;
 
-                in vec3 v_Position;
-                in vec4 v_Color;
+          in vec3 v_Position;
+          in vec4 v_Color;
 
-                void main() {
-                    color = v_Color;
-                }
-            )";
+          void main() {
+              color = v_Color;
+          }
+      )";
       this->shader_array.load("triangle_shader", vertex_source,
                               fragment_source);
     }
@@ -109,26 +111,26 @@ public:
       this->square_vertex_array->set_index_buffer(square_index_buffer);
 
       std::string vertex_source = R"(
-                #version 450 core
-                layout(location = 0) in vec3 a_Position;
-                
-                uniform mat4 u_ViewProjection;
-                uniform mat4 u_Transform;
+          #version 450 core
+          layout(location = 0) in vec3 a_Position;
+          
+          uniform mat4 u_ViewProjection;
+          uniform mat4 u_Transform;
 
-                void main() {
-                    gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-                }
-            )";
+          void main() {
+              gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+          }
+      )";
       std::string fragment_source = R"(
-                #version 450 core
-                layout(location = 0) out vec4 color;
+          #version 450 core
+          layout(location = 0) out vec4 color;
 
-                uniform vec3 u_Color;
+          uniform vec3 u_Color;
 
-                void main() {
-                    color = vec4(u_Color, 1.0f);
-                }
-            )";
+          void main() {
+              color = vec4(u_Color, 1.0f);
+          }
+      )";
       this->shader_array.load("square_shader", vertex_source, fragment_source);
 
       // Textures
@@ -217,9 +219,14 @@ private:
 
 class Sandbox : public hazel::core::Application {
 public:
-  Sandbox() { this->add_layer(new ExampleLayer()); }
+  Sandbox() {
+    // this->add_layer(new ExampleLayer());
+    this->add_layer(new Sandbox2D());
+  }
 
   ~Sandbox() {}
 };
 
-hazel::core::Application *hazel::core::create_application() { return new Sandbox(); }
+hazel::core::Application *hazel::core::create_application() {
+  return new Sandbox();
+}
