@@ -23,6 +23,17 @@ public:
 
   virtual const std::string &get_name() const override;
 
+  virtual void set_uniform(const std::string &name, const int &i) override;
+
+  virtual void set_uniform(const std::string &name,
+                           const glm::vec3 &vec) override;
+
+  virtual void set_uniform(const std::string &name,
+                           const glm::vec4 &vec) override;
+
+  virtual void set_uniform(const std::string &name,
+                           const glm::mat4 &mat) override;
+
   void upload_uniform(const std::string &, const int &);
 
   void upload_uniform(const std::string &, const glm::vec3 &);

@@ -2,6 +2,8 @@
 
 #include <hazel/core/core.hpp>
 
+#include <glm/glm.hpp>
+
 namespace hazel::renderer {
 enum class ShaderDataType : unsigned int {
   NONE = 0,
@@ -41,6 +43,14 @@ public:
   static hazel::core::Ref<Shader> create(const std::string &name,
                                          const std::string &vertex_source,
                                          const std::string &fragment_source);
+
+  virtual void set_uniform(const std::string &name, const int &i) = 0;
+
+  virtual void set_uniform(const std::string &name, const glm::vec3 &vec) = 0;
+
+  virtual void set_uniform(const std::string &name, const glm::vec4 &vec) = 0;
+
+  virtual void set_uniform(const std::string &name, const glm::mat4 &mat) = 0;
 
   virtual const std::string &get_name() const = 0;
 

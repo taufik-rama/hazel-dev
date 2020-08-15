@@ -21,10 +21,10 @@ void Sandbox2D::on_update(hazel::core::Timestep ts) {
 
   hazel::renderer::Renderer2D::begin_scene(
       this->camera_controller.get_camera());
-
-  hazel::renderer::Renderer2D::draw_quad({-0.6f, 0.4f}, {1.0f, 1.4f},
+  hazel::renderer::Renderer2D::draw_quad({-0.6f, 0.4f}, {0.4f, 0.4f},
                                          {0.8f, 0.2f, 0.3f, 1.0f});
-
+  hazel::renderer::Renderer2D::draw_quad({0.0f, 0.0f}, {0.4f, 0.4f},
+                                         {0.8f, 0.2f, 0.3f, 1.0f});
   hazel::renderer::Renderer2D::end_scene();
 }
 

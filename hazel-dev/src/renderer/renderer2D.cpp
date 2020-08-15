@@ -1,8 +1,9 @@
 #include <hazel/renderer/renderer2D.hpp>
 
-#include <hazel/platform/linux/opengl_shader.hpp>
 #include <hazel/renderer/command.hpp>
 #include <hazel/renderer/vertex_array.hpp>
+
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace hazel::renderer {
 struct Renderer2DStorage {
@@ -51,10 +52,8 @@ void Renderer2D::shutdown() {
 
 void Renderer2D::begin_scene(const hazel::camera::Orthographic &camera) {
   storage->shader->bind();
-  std::static_pointer_cast<hazel::platform::linux::Shader>(storage->shader)
-      ->upload_uniform("u_ViewProjection", camera.get_projection_view_matrix());
-  std::static_pointer_cast<hazel::platform::linux::Shader>(storage->shader)
-      ->upload_uniform("u_Transform", glm::mat4(1.0f));
+  storage->shader->set_uniform("u_ViewProjection",
+                               camera.get_projection_view_matrix());
   storage->shader->unbind();
 }
 
@@ -65,11 +64,14 @@ void Renderer2D::draw_quad(const glm::vec2 &position, const glm::vec2 &size,
   Renderer2D::draw_quad({position.x, position.y, 0}, size, color);
 }
 
-void Renderer2D::draw_quad(const glm::vec3 &, const glm::vec2 &,
+void Renderer2D::draw_quad(const glm::vec3 &position, const glm::vec2 &size,
                            const glm::vec4 &color) {
   storage->shader->bind();
-  std::static_pointer_cast<hazel::platform::linux::Shader>(storage->shader)
-      ->upload_uniform("u_Color", color);
+  storage->shader->set_uniform("u_Color", color);
+
+  glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+                        glm::scale(glm::mat4(1.0f), {size.x, size.y, 0.0f});
+  storage->shader->set_uniform("u_Transform", transform);
 
   storage->vertex_array->bind();
   storage->vertex_array->get_index_buffer()->bind();

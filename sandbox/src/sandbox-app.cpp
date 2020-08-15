@@ -143,8 +143,7 @@ public:
         auto texture_shader =
             hazel::renderer::Shader::create("../assets/shaders/texture.glsl");
         texture_shader->bind();
-        std::static_pointer_cast<hazel::platform::linux::Shader>(texture_shader)
-            ->upload_uniform("u_Texture", 0 /* texture slot */);
+        texture_shader->set_uniform("u_Texture", 0 /* texture slot */);
         texture_shader->unbind();
         this->shader_array.add(texture_shader);
       }
@@ -161,9 +160,9 @@ public:
         this->camera_controller.get_camera());
 
     this->shader_array.get("square_shader")->bind();
-    std::static_pointer_cast<hazel::platform::linux::Shader>(
-        this->shader_array.get("square_shader"))
-        ->upload_uniform("u_Color", this->square_array);
+
+    this->shader_array.get("square_shader")
+        ->set_uniform("u_Color", this->square_array);
     this->shader_array.get("square_shader")->unbind();
 
     glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
