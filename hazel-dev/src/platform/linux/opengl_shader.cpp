@@ -1,5 +1,7 @@
 #include <hazel/platform/linux/opengl_shader.hpp>
 
+#include <hazel/platform/linux/opengl_log.hpp>
+
 #include <fstream>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -174,25 +176,29 @@ void Shader::set_uniform(const std::string &name, const glm::mat4 &mat) {
 
 void Shader::upload_uniform(const std::string &name, const int &i) {
   GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
-  ASSERT(location != -1, "uniform doesn't exists: " << name);
-  glUniform1i(location, i);
+  location == -1 ? HAZEL_DEV_LOG_WARN("uniform doesn't exists: {}", name)
+                 : (void)0;
+  gl_call(glUniform1i(location, i));
 }
 
 void Shader::upload_uniform(const std::string &name, const glm::vec3 &vec) {
   GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
-  ASSERT(location != -1, "uniform doesn't exists: " << name);
-  glUniform3f(location, vec.x, vec.y, vec.z);
+  location == -1 ? HAZEL_DEV_LOG_WARN("uniform doesn't exists: {}", name)
+                 : (void)0;
+  gl_call(glUniform3f(location, vec.x, vec.y, vec.z));
 }
 
 void Shader::upload_uniform(const std::string &name, const glm::vec4 &vec) {
   GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
-  ASSERT(location != -1, "uniform doesn't exists: " << name);
-  glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
+  location == -1 ? HAZEL_DEV_LOG_WARN("uniform doesn't exists: {}", name)
+                 : (void)0;
+  gl_call(glUniform4f(location, vec.x, vec.y, vec.z, vec.w));
 }
 
 void Shader::upload_uniform(const std::string &name, const glm::mat4 &mat) {
   GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
-  ASSERT(location != -1, "uniform doesn't exists: " << name);
-  glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+  location == -1 ? HAZEL_DEV_LOG_WARN("uniform doesn't exists: {}", name)
+                 : (void)0;
+  gl_call(glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat)));
 }
 } // namespace hazel::platform::linux

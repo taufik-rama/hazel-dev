@@ -11,8 +11,6 @@ public:
 
   virtual void on_detach() override;
 
-  virtual void on_imgui_render() override;
-
   void begin();
 
   void end();

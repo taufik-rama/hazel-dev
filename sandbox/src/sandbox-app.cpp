@@ -28,9 +28,9 @@ public:
     this->vertex_array = hazel::renderer::VertexArray::create();
     {
       float vertices[7 * 3] = {
-          -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f, // 0
-          0.5f,  -0.5f, 0.0f, 0.2f, 0.2f, 0.8f, 1.0f, // 1
-          0.0f,  0.5f,  0.0f, 0.8f, 0.8f, 0.2f, 1.0f, // 2
+          -0.5f, -0.5f, 0.1f, 0.8f, 0.2f, 0.8f, 1.0f, // 0
+          0.5f,  -0.5f, 0.1f, 0.2f, 0.2f, 0.8f, 1.0f, // 1
+          0.0f,  0.5f,  0.1f, 0.8f, 0.8f, 0.2f, 1.0f, // 2
       };
       hazel::core::Ref<hazel::renderer::VertexBuffer> vertex_buffer;
       vertex_buffer =
@@ -87,51 +87,32 @@ public:
 
     {
       this->square_vertex_array = hazel::renderer::VertexArray::create();
+      {
+        float vertices[4 * 5] = {
+            -0.5f, -0.5f, 0.0f, /* <- position, texture -> */ 0.0f, 0.0f, // 0
+            0.5f,  -0.5f, 0.0f, /* <- position, texture -> */ 1.0f, 0.0f, // 1
+            0.5f,  0.5f,  0.0f, /* <- position, texture -> */ 1.0f, 1.0f, // 2
+            -0.5f, 0.5f,  0.0f, /* <- position, texture -> */ 0.0f, 1.0f, // 3
+        };
+        hazel::core::Ref<hazel::renderer::VertexBuffer> square_vertex_buffer;
+        square_vertex_buffer =
+            hazel::renderer::VertexBuffer::create(vertices, sizeof(vertices));
+        square_vertex_buffer->set_layout({
+            {hazel::renderer::ShaderDataType::FLOAT3, "a_Position"},
+            {hazel::renderer::ShaderDataType::FLOAT2, "a_TexCoord"},
+        });
+        this->square_vertex_array->add_vertex_buffer(square_vertex_buffer);
 
-      float vertices[4 * 5] = {
-          -0.5f, -0.5f, 0.0f, /* <- position, texture -> */ 0.0f, 0.0f, // 0
-          0.5f,  -0.5f, 0.0f, /* <- position, texture -> */ 1.0f, 0.0f, // 1
-          0.5f,  0.5f,  0.0f, /* <- position, texture -> */ 1.0f, 1.0f, // 2
-          -0.5f, 0.5f,  0.0f, /* <- position, texture -> */ 0.0f, 1.0f, // 3
-      };
-      hazel::core::Ref<hazel::renderer::VertexBuffer> square_vertex_buffer;
-      square_vertex_buffer =
-          hazel::renderer::VertexBuffer::create(vertices, sizeof(vertices));
-      square_vertex_buffer->set_layout({
-          {hazel::renderer::ShaderDataType::FLOAT3, "a_Position"},
-          {hazel::renderer::ShaderDataType::FLOAT2, "a_TexCoord"},
-      });
-      this->square_vertex_array->add_vertex_buffer(square_vertex_buffer);
+        const unsigned int indices_len = 6;
+        unsigned int indices[indices_len] = {0, 1, 2, 2, 3, 0};
+        hazel::core::Ref<hazel::renderer::IndexBuffer> square_index_buffer;
+        square_index_buffer =
+            hazel::renderer::IndexBuffer::create(indices, indices_len);
+        this->square_vertex_array->set_index_buffer(square_index_buffer);
+      }
 
-      const unsigned int indices_len = 6;
-      unsigned int indices[indices_len] = {0, 1, 2, 2, 3, 0};
-      hazel::core::Ref<hazel::renderer::IndexBuffer> square_index_buffer;
-      square_index_buffer =
-          hazel::renderer::IndexBuffer::create(indices, indices_len);
-      this->square_vertex_array->set_index_buffer(square_index_buffer);
-
-      std::string vertex_source = R"(
-          #version 450 core
-          layout(location = 0) in vec3 a_Position;
-          
-          uniform mat4 u_ViewProjection;
-          uniform mat4 u_Transform;
-
-          void main() {
-              gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-          }
-      )";
-      std::string fragment_source = R"(
-          #version 450 core
-          layout(location = 0) out vec4 color;
-
-          uniform vec3 u_Color;
-
-          void main() {
-              color = vec4(u_Color, 1.0f);
-          }
-      )";
-      this->shader_array.load("square_shader", vertex_source, fragment_source);
+      this->shader_array.load("square_shader",
+                              "../assets/shaders/texture-color.glsl");
 
       // Textures
       {
@@ -139,13 +120,6 @@ public:
             "../assets/textures/Checkerboard.png");
         this->logo_texture = hazel::renderer::Texture2D::create(
             "../assets/textures/ChernoLogo.png");
-
-        auto texture_shader =
-            hazel::renderer::Shader::create("../assets/shaders/texture.glsl");
-        texture_shader->bind();
-        texture_shader->set_uniform("u_Texture", 0 /* texture slot */);
-        texture_shader->unbind();
-        this->shader_array.add(texture_shader);
       }
     }
   }
@@ -160,31 +134,34 @@ public:
         this->camera_controller.get_camera());
 
     this->shader_array.get("square_shader")->bind();
-
     this->shader_array.get("square_shader")
         ->set_uniform("u_Color", this->square_array);
+    this->shader_array.get("square_shader")->set_uniform("u_Texture", 0);
     this->shader_array.get("square_shader")->unbind();
 
+    this->checkerboard_texture->bind(0);
     glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
     for (int i = 0; i < 20; i++) {
       for (int j = 0; j < 20; j++) {
-        glm::vec3 pos(i * 0.11f, j * 0.11f, 0.0f);
+        glm::vec3 pos(i * 0.11f, j * 0.11f, -0.1f);
         hazel::renderer::Renderer::submit(
             this->shader_array.get("square_shader"), this->square_vertex_array,
             glm::translate(glm::mat4(1.0f), pos) * scale);
       }
     }
+    this->checkerboard_texture->unbind(0);
 
     this->checkerboard_texture->bind(0);
     hazel::renderer::Renderer::submit(
-        this->shader_array.get("texture"), this->square_vertex_array,
+        this->shader_array.get("square_shader"), this->square_vertex_array,
         glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
     this->checkerboard_texture->unbind(0);
 
     this->logo_texture->bind(0);
     hazel::renderer::Renderer::submit(
-        this->shader_array.get("texture"), this->square_vertex_array,
-        glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+        this->shader_array.get("square_shader"), this->square_vertex_array,
+        glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, 0.05f}) *
+            glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
     this->logo_texture->unbind(0);
 
     // Triangle
@@ -207,13 +184,13 @@ public:
 private:
   hazel::renderer::ShaderArray shader_array;
 
-  hazel::core::Ref<hazel::renderer::VertexArray> vertex_array;
-  hazel::core::Ref<hazel::renderer::VertexArray> square_vertex_array;
+  hazel::core::Ref<hazel::renderer::VertexArray> vertex_array,
+      square_vertex_array;
   hazel::core::Ref<hazel::renderer::Texture> checkerboard_texture, logo_texture;
 
   hazel::camera::OrthographicController camera_controller;
 
-  glm::vec3 square_array = {0.2f, 0.3f, 0.8f};
+  glm::vec4 square_array = glm::vec4(1.0f);
 };
 
 class Sandbox : public hazel::core::Application {
