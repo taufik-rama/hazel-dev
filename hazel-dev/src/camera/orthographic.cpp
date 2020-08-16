@@ -50,9 +50,8 @@ void Orthographic::recalculate_matrix() {
 
   auto translation = glm::translate(identity, this->current_position);
 
-  auto z_axis = glm::vec3(0, 0, 1);
-  auto rotation =
-      glm::rotate(identity, glm::radians(this->current_rotation), z_axis);
+  auto rotation = glm::rotate(identity, glm::radians(this->current_rotation),
+                              glm::vec3(0, 0, 1));
 
   glm::mat4 transformation;
   if (this->translation_rotation ==

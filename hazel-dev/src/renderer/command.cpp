@@ -4,7 +4,7 @@
 
 namespace hazel::renderer {
 hazel::core::Ref<Library> Command::library =
-    std::make_shared<hazel::platform::linux::Library>();
+    hazel::core::create_ref<hazel::platform::linux::Library>();
 
 void Command::init() { library->init(); }
 

@@ -7,6 +7,8 @@ class Texture2D : public hazel::renderer::Texture2D {
 public:
   Texture2D(const std::string &);
 
+  Texture2D(void *data, unsigned int width, unsigned int height);
+
   ~Texture2D();
 
   virtual unsigned int get_width() const override;

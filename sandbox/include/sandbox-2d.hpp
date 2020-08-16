@@ -19,6 +19,7 @@ public:
   virtual void on_imgui_render() override;
 
 private:
-  glm::vec4 square_array = {0.2f, 0.3f, 0.8f, 1.0f};
   hazel::camera::OrthographicController camera_controller;
+  glm::vec4 square_array = {0.2f, 0.3f, 0.8f, 1.0f};
+  hazel::core::Ref<hazel::renderer::Texture2D> checkerboard_texture;
 };

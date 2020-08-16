@@ -10,7 +10,20 @@ hazel::core::Ref<Texture2D> Texture2D::create(const std::string &path) {
     break;
 
   case Library::API::OPENGL:
-    return std::make_shared<hazel::platform::linux::Texture2D>(path);
+    return hazel::core::create_ref<hazel::platform::linux::Texture2D>(path);
+  }
+  assert(false);
+}
+
+hazel::core::Ref<Texture2D> Texture2D::create(void *data, unsigned int width,
+                                              unsigned int height) {
+  switch (Library::get_api_library()) {
+  case Library::API::NONE:
+    break;
+
+  case Library::API::OPENGL:
+    return hazel::core::create_ref<hazel::platform::linux::Texture2D>(
+        data, width, height);
   }
   assert(false);
 }

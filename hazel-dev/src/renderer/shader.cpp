@@ -11,7 +11,7 @@ hazel::core::Ref<Shader> Shader::create(const std::string &filepath) {
     break;
 
   case Library::API::OPENGL:
-    return std::make_shared<hazel::platform::linux::Shader>(filepath);
+    return hazel::core::create_ref<hazel::platform::linux::Shader>(filepath);
   }
   assert(false);
 }
@@ -23,7 +23,8 @@ hazel::core::Ref<Shader> Shader::create(const std::string &name,
     break;
 
   case Library::API::OPENGL:
-    return std::make_shared<hazel::platform::linux::Shader>(name, filepath);
+    return hazel::core::create_ref<hazel::platform::linux::Shader>(name,
+                                                                   filepath);
   }
   assert(false);
 }
@@ -36,8 +37,8 @@ hazel::core::Ref<Shader> Shader::create(const std::string &name,
     break;
 
   case Library::API::OPENGL:
-    return std::make_shared<hazel::platform::linux::Shader>(name, vertex_source,
-                                                            fragment_source);
+    return hazel::core::create_ref<hazel::platform::linux::Shader>(
+        name, vertex_source, fragment_source);
   }
   assert(false);
 }

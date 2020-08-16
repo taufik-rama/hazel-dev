@@ -1,7 +1,6 @@
 #include <hazel/renderer/renderer.hpp>
 
 #include <hazel/camera/orthographic.hpp>
-#include <hazel/platform/linux/opengl_shader.hpp>
 #include <hazel/renderer/command.hpp>
 
 namespace hazel::renderer {
@@ -21,10 +20,8 @@ void Renderer::submit(const hazel::core::Ref<Shader> &shader,
                       const hazel::core::Ref<VertexArray> &va,
                       const glm::mat4 &transform) {
   shader->bind();
-  std::static_pointer_cast<hazel::platform::linux::Shader>(shader)
-      ->upload_uniform("u_ViewProjection", scene_data.projection_view_matrix);
-  std::static_pointer_cast<hazel::platform::linux::Shader>(shader)
-      ->upload_uniform("u_Transform", transform);
+  shader->set_uniform("u_ViewProjection", scene_data.projection_view_matrix);
+  shader->set_uniform("u_Transform", transform);
 
   va->bind();
   va->get_index_buffer()->bind();

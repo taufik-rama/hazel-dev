@@ -17,5 +17,7 @@ public:
 class Texture2D : public Texture {
 public:
   static hazel::core::Ref<Texture2D> create(const std::string &);
+  static hazel::core::Ref<Texture2D> create(void *data, unsigned int width,
+                                            unsigned int height);
 };
 } // namespace hazel::renderer

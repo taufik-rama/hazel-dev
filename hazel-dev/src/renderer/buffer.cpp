@@ -45,8 +45,8 @@ hazel::core::Ref<VertexBuffer> VertexBuffer::create(float *vertices,
     break;
 
   case Library::API::OPENGL:
-    return std::make_shared<hazel::platform::linux::VertexBuffer>(vertices,
-                                                                  size);
+    return hazel::core::create_ref<hazel::platform::linux::VertexBuffer>(
+        vertices, size);
   }
   assert(false);
 }
@@ -58,7 +58,8 @@ hazel::core::Ref<IndexBuffer> IndexBuffer::create(unsigned int *indices,
     break;
 
   case Library::API::OPENGL:
-    return std::make_shared<hazel::platform::linux::IndexBuffer>(indices, size);
+    return hazel::core::create_ref<hazel::platform::linux::IndexBuffer>(indices,
+                                                                        size);
   }
   assert(false);
 }

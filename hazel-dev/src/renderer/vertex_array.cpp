@@ -10,7 +10,7 @@ hazel::core::Ref<VertexArray> VertexArray::create() {
     break;
 
   case Library::API::OPENGL:
-    return std::make_shared<hazel::platform::linux::VertexArray>();
+    return hazel::core::create_ref<hazel::platform::linux::VertexArray>();
   }
   assert(false);
 }
