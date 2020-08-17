@@ -4,6 +4,7 @@
 #include <hazel/camera/orthographic_controller.hpp>
 
 #include <hazel/core/application.hpp>
+#include <hazel/core/entrypoint.hpp>
 #include <hazel/core/timestep.hpp>
 
 #include <hazel/event/app.hpp>
@@ -21,3 +22,5 @@
 #include <hazel/renderer/renderer.hpp>
 #include <hazel/renderer/renderer2D.hpp>
 #include <hazel/renderer/texture.hpp>
+
+#include <hazel/trace/profiler.hpp>

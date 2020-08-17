@@ -11,11 +11,16 @@ project(Sandbox)
 add_executable(sandbox 
     "src/sandbox-2d.cpp"
     "src/sandbox-app.cpp"
+
+    # Dear ImGUI widgets implementation
+    "vendor/imgui-widgets/imgui-flame-graph/imgui_widget_flamegraph.cpp"
+    "vendor/imgui-widgets/widgets.cpp"
 )
 
 target_include_directories(sandbox
     PRIVATE 
         "include/"
+        "vendor/"
         "../hazel-dev/include/"
         "../hazel-dev/vendor/glfw/include/"
         "../hazel-dev/vendor/spdlog/include/"
@@ -42,4 +47,9 @@ target_compile_options(sandbox
         -Wextra
         -Werror
         -pedantic
+)
+
+target_link_options(sandbox
+    PRIVATE
+        -no-pie # GCC will set the binary to "shared-library" if "pie" is set
 )

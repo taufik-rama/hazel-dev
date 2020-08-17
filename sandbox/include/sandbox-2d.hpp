@@ -1,7 +1,5 @@
 #pragma once
 
-#include <timer.hpp>
-
 #include <hazel-api.hpp>
 
 class Sandbox2D : public hazel::layer::Layer {
@@ -21,7 +19,7 @@ public:
   virtual void on_imgui_render() override;
 
 private:
-  std::vector<profiler_t> profilers;
+  std::vector<timer_data> timers;
 
   glm::vec4 square_array = {0.2f, 0.3f, 0.8f, 1.0f};
 

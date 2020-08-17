@@ -1,8 +1,4 @@
-#include <iostream>
-
 #include <sandbox-2d.hpp>
-
-#include <hazel-api.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -197,12 +193,16 @@ class Sandbox : public hazel::core::Application {
 public:
   Sandbox() {
     // this->add_layer(new ExampleLayer());
-    this->add_layer(new Sandbox2D());
+    this->sandbox2D = new Sandbox2D();
+    this->add_layer(this->sandbox2D);
   }
 
-  ~Sandbox() {}
+  ~Sandbox() { delete this->sandbox2D; }
+
+private:
+  Sandbox2D *sandbox2D;
 };
 
-hazel::core::Application *hazel::core::create_application() {
-  return new Sandbox();
+hazel::core::Ref<hazel::core::Application> hazel::core::create_application() {
+  return hazel::core::create_ref<Sandbox>();
 }

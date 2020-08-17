@@ -2,4 +2,6 @@
 
 #include <hazel/core/application.hpp>
 
-extern hazel::core::Application *hazel::core::create_application();
+namespace hazel::core {
+hazel::core::Ref<hazel::core::Application> create_application();
+}

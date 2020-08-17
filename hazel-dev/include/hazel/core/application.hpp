@@ -40,6 +40,4 @@ private:
   bool is_minimized = false;
   float last_frame_duration = 0.0f;
 };
-
-Application *create_application();
 } // namespace hazel::core

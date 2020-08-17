@@ -1,4 +1,4 @@
-// Basic texture shaders
+// Basic texture w/ color shaders
 
 #type vertex
 #version 450 core

@@ -9,5 +9,4 @@ int main(/* int arc, char **argv */) {
 
   auto app = hazel::core::create_application();
   app->run();
-  delete app;
 }
