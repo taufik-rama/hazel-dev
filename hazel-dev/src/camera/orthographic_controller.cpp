@@ -19,6 +19,7 @@ OrthographicController::OrthographicController(float aspect_ratio,
 Orthographic &OrthographicController::get_camera() { return this->camera; }
 
 void OrthographicController::on_update(hazel::core::Timestep ts) {
+  TIMER_SCOPE();
   if (hazel::input::Input::is_key_pressed(HAZEL_KEY_W)) {
     this->camera_pos.y += this->camera_pos_speed * ts;
   } else if (hazel::input::Input::is_key_pressed(HAZEL_KEY_S)) {
@@ -49,6 +50,7 @@ void OrthographicController::on_update(hazel::core::Timestep ts) {
 }
 
 void OrthographicController::on_event(hazel::event::Event &e) {
+  TIMER_SCOPE();
   hazel::event::EventDispatcher dispatcher(e);
   dispatcher.dispatch<hazel::event::MouseScrollEvent>(
       EVENT_BIND_METHOD_1(OrthographicController::on_mouse_scroll));

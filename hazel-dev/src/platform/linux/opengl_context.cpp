@@ -2,6 +2,7 @@
 
 namespace hazel::renderer {
 void OpenGLContext::init() {
+  TIMER_SCOPE();
   glfwMakeContextCurrent(this->window);
   assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress));
   HAZEL_DEV_LOG_INFO(
@@ -10,5 +11,8 @@ void OpenGLContext::init() {
       glGetString(GL_VENDOR));
 }
 
-void OpenGLContext::swap_buffers() { glfwSwapBuffers(this->window); }
+void OpenGLContext::swap_buffers() {
+  TIMER_SCOPE();
+  glfwSwapBuffers(this->window);
+}
 } // namespace hazel::renderer

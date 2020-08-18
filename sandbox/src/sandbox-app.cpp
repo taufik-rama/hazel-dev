@@ -10,6 +10,7 @@ public:
       : hazel::layer::Layer("Sandbox Example Layer"),
         camera_controller((float)16 / (float)9, true) // 16:9 aspect ratio
   {
+    TIMER_SCOPE();
     // Set the vsync to false so that we're able to see the actual framerate.
     // The app should feel/run normal whether this is on or off
     hazel::core::Application::get_application()->get_window().set_vsync(false);
@@ -121,6 +122,7 @@ public:
   }
 
   void on_update(hazel::core::Timestep ts) override {
+    TIMER_SCOPE();
     this->camera_controller.on_update(ts);
 
     hazel::renderer::Command::set_clear_color({0.2, 0.2, 0.2, 1});
@@ -129,36 +131,49 @@ public:
     hazel::renderer::Renderer::begin_scene(
         this->camera_controller.get_camera());
 
-    this->shader_array.get("square_shader")->bind();
-    this->shader_array.get("square_shader")
-        ->set_uniform("u_Color", this->square_array);
-    this->shader_array.get("square_shader")->set_uniform("u_Texture", 0);
-    this->shader_array.get("square_shader")->unbind();
-
-    this->checkerboard_texture->bind(0);
-    glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
-    for (int i = 0; i < 20; i++) {
-      for (int j = 0; j < 20; j++) {
-        glm::vec3 pos(i * 0.11f, j * 0.11f, -0.1f);
-        hazel::renderer::Renderer::submit(
-            this->shader_array.get("square_shader"), this->square_vertex_array,
-            glm::translate(glm::mat4(1.0f), pos) * scale);
-      }
+    {
+      TIMER_SCOPE_NAME("on_update(hazel::core::Timestep ts) - 1");
+      this->shader_array.get("square_shader")->bind();
+      this->shader_array.get("square_shader")
+          ->set_uniform("u_Color", this->square_array);
+      this->shader_array.get("square_shader")->set_uniform("u_Texture", 0);
+      this->shader_array.get("square_shader")->unbind();
     }
-    this->checkerboard_texture->unbind(0);
 
-    this->checkerboard_texture->bind(0);
-    hazel::renderer::Renderer::submit(
-        this->shader_array.get("square_shader"), this->square_vertex_array,
-        glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-    this->checkerboard_texture->unbind(0);
+    {
+      TIMER_SCOPE_NAME("on_update(hazel::core::Timestep ts) - 2");
+      this->checkerboard_texture->bind(0);
+      glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+      for (int i = 0; i < 20; i++) {
+        for (int j = 0; j < 20; j++) {
+          glm::vec3 pos(i * 0.11f, j * 0.11f, -0.1f);
+          hazel::renderer::Renderer::submit(
+              this->shader_array.get("square_shader"),
+              this->square_vertex_array,
+              glm::translate(glm::mat4(1.0f), pos) * scale);
+        }
+      }
+      this->checkerboard_texture->unbind(0);
+    }
 
-    this->logo_texture->bind(0);
-    hazel::renderer::Renderer::submit(
-        this->shader_array.get("square_shader"), this->square_vertex_array,
-        glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, 0.05f}) *
-            glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-    this->logo_texture->unbind(0);
+    {
+      TIMER_SCOPE_NAME("on_update(hazel::core::Timestep ts) - 3");
+      this->checkerboard_texture->bind(0);
+      hazel::renderer::Renderer::submit(
+          this->shader_array.get("square_shader"), this->square_vertex_array,
+          glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+      this->checkerboard_texture->unbind(0);
+    }
+
+    {
+      TIMER_SCOPE_NAME("on_update(hazel::core::Timestep ts) - 4");
+      this->logo_texture->bind(0);
+      hazel::renderer::Renderer::submit(
+          this->shader_array.get("square_shader"), this->square_vertex_array,
+          glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, 0.05f}) *
+              glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+      this->logo_texture->unbind(0);
+    }
 
     // Triangle
     hazel::renderer::Renderer::submit(this->shader_array.get("triangle_shader"),
@@ -168,6 +183,7 @@ public:
   }
 
   virtual void on_imgui_render() override {
+    TIMER_SCOPE();
     ImGui::Begin("Settings");
     ImGui::ColorEdit3("Square Array Color", glm::value_ptr(this->square_array));
     ImGui::End();
@@ -192,9 +208,9 @@ private:
 class Sandbox : public hazel::core::Application {
 public:
   Sandbox() {
-    // this->add_layer(new ExampleLayer());
+    this->add_layer(new ExampleLayer());
     this->sandbox2D = new Sandbox2D();
-    this->add_layer(this->sandbox2D);
+    // this->add_layer(this->sandbox2D);
   }
 
   ~Sandbox() { delete this->sandbox2D; }
@@ -203,6 +219,6 @@ private:
   Sandbox2D *sandbox2D;
 };
 
-hazel::core::Ref<hazel::core::Application> hazel::core::create_application() {
-  return hazel::core::create_ref<Sandbox>();
+hazel::core::Scope<hazel::core::Application> hazel::core::create_application() {
+  return hazel::core::create_scope<Sandbox>();
 }

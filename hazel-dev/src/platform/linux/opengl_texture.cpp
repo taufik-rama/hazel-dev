@@ -7,6 +7,7 @@
 
 namespace hazel::platform::linux {
 Texture2D::Texture2D(const std::string &path) : path(path) {
+  TIMER_SCOPE();
   int width, height, channels;
   stbi_set_flip_vertically_on_load(1); // OpenGL requires invert
   stbi_uc *data = stbi_load(path.c_str(), &width, &height, &channels, 0);
@@ -45,6 +46,7 @@ Texture2D::Texture2D(const std::string &path) : path(path) {
 
 Texture2D::Texture2D(void *data, unsigned int width, unsigned int height)
     : width(width), height(height) {
+  TIMER_SCOPE();
   // `internal_format` is what OpenGL will do to interpret the data
   // `data_format` is what the actual data format that we supply
   GLenum internal_format = GL_RGBA8, data_format = GL_RGBA;
@@ -63,17 +65,22 @@ Texture2D::Texture2D(void *data, unsigned int width, unsigned int height)
                               data));
 }
 
-Texture2D::~Texture2D() { glDeleteTextures(1, &this->renderer_id); }
+Texture2D::~Texture2D() {
+  TIMER_SCOPE();
+  glDeleteTextures(1, &this->renderer_id);
+}
 
 unsigned int Texture2D::get_width() const { return this->width; }
 
 unsigned int Texture2D::get_height() const { return this->height; }
 
 void Texture2D::bind(unsigned int slot) const {
+  TIMER_SCOPE();
   gl_call(glBindTextureUnit(slot, this->renderer_id));
 }
 
 void Texture2D::unbind(unsigned int slot) const {
+  TIMER_SCOPE();
   gl_call(glBindTextureUnit(slot, 0));
 }
 } // namespace hazel::platform::linux

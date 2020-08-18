@@ -3,5 +3,5 @@
 #include <hazel/core/application.hpp>
 
 namespace hazel::core {
-hazel::core::Ref<hazel::core::Application> create_application();
+hazel::core::Scope<hazel::core::Application> create_application();
 }

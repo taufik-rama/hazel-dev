@@ -23,19 +23,25 @@ shader_data_type_to_opengl_type(hazel::renderer::ShaderDataType t) {
 }
 
 VertexArray::VertexArray() {
+  TIMER_SCOPE();
   gl_call(glCreateVertexArrays(1, &this->renderer_id));
   HAZEL_DEV_LOG_TRACE("Creating vertex array (id: {})", this->renderer_id);
 }
 
 VertexArray::~VertexArray() {
+  TIMER_SCOPE();
   gl_call(glDeleteVertexArrays(1, &this->renderer_id));
 }
 
 void VertexArray::bind() const {
+  TIMER_SCOPE();
   gl_call(glBindVertexArray(this->renderer_id));
 }
 
-void VertexArray::unbind() const { gl_call(glBindVertexArray(0)); }
+void VertexArray::unbind() const {
+  TIMER_SCOPE();
+  gl_call(glBindVertexArray(0));
+}
 
 void VertexArray::add_vertex_buffer(
     const hazel::core::Ref<hazel::renderer::VertexBuffer> &buffer) {

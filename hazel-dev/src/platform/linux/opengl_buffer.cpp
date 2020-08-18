@@ -4,6 +4,7 @@
 
 namespace hazel::platform::linux {
 VertexBuffer::VertexBuffer(float *vertices, size_t size) : layout({}) {
+  TIMER_SCOPE();
   gl_call(glCreateBuffers(1, &this->renderer_id));
   HAZEL_DEV_LOG_TRACE("Creating vertex buffer (id: {}, size: {})",
                       this->renderer_id, size);
@@ -13,6 +14,7 @@ VertexBuffer::VertexBuffer(float *vertices, size_t size) : layout({}) {
 }
 
 VertexBuffer::~VertexBuffer() {
+  TIMER_SCOPE();
   gl_call(glDeleteBuffers(1, &this->renderer_id));
 }
 
@@ -21,10 +23,14 @@ std::string VertexBuffer::to_string() const {
 }
 
 void VertexBuffer::bind() const {
+  TIMER_SCOPE();
   gl_call(glBindBuffer(GL_ARRAY_BUFFER, this->renderer_id));
 }
 
-void VertexBuffer::unbind() const { gl_call(glBindBuffer(GL_ARRAY_BUFFER, 0)); }
+void VertexBuffer::unbind() const {
+  TIMER_SCOPE();
+  gl_call(glBindBuffer(GL_ARRAY_BUFFER, 0));
+}
 
 void VertexBuffer::set_layout(const hazel::renderer::BufferLayout &layout) {
   this->layout = layout;

@@ -12,6 +12,7 @@ static std::unordered_map<std::string, GLenum> source_types = {
     {"pixel", GL_FRAGMENT_SHADER}};
 
 std::string Shader::read_file(const std::string &filepath) {
+  TIMER_SCOPE();
   std::ifstream file(filepath, std::ios_base::in | std::ios_base::binary);
   ASSERT(file, "can't open file: " << filepath);
 
@@ -29,6 +30,7 @@ std::string Shader::read_file(const std::string &filepath) {
 
 std::unordered_map<GLenum, std::string>
 Shader::preprocess(const std::string &filepath, const std::string &contents) {
+  TIMER_SCOPE();
   std::unordered_map<GLenum, std::string> sources;
 
   const char *type_token = "#type";
@@ -61,6 +63,7 @@ Shader::preprocess(const std::string &filepath, const std::string &contents) {
 }
 
 void Shader::compile(std::unordered_map<GLenum, std::string> &sources) {
+  TIMER_SCOPE();
   // https://www.khronos.org/opengl/wiki/Shader_Compilation
 
   this->renderer_id = glCreateProgram();
@@ -150,11 +153,20 @@ Shader::Shader(const std::string &name, const std::string &vertex_source,
   this->compile(sources);
 }
 
-Shader::~Shader() { glDeleteProgram(this->renderer_id); }
+Shader::~Shader() {
+  TIMER_SCOPE();
+  glDeleteProgram(this->renderer_id);
+}
 
-void Shader::bind() const { glUseProgram(this->renderer_id); }
+void Shader::bind() const {
+  TIMER_SCOPE();
+  glUseProgram(this->renderer_id);
+}
 
-void Shader::unbind() const { glUseProgram(0); }
+void Shader::unbind() const {
+  TIMER_SCOPE();
+  glUseProgram(0);
+}
 
 const std::string &Shader::get_name() const { return this->name; }
 
@@ -175,6 +187,7 @@ void Shader::set_uniform(const std::string &name, const glm::mat4 &mat) {
 }
 
 void Shader::upload_uniform(const std::string &name, const int &i) {
+  TIMER_SCOPE();
   GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
   location == -1 ? HAZEL_DEV_LOG_WARN("uniform doesn't exists: {}", name)
                  : (void)0;
@@ -182,6 +195,7 @@ void Shader::upload_uniform(const std::string &name, const int &i) {
 }
 
 void Shader::upload_uniform(const std::string &name, const glm::vec3 &vec) {
+  TIMER_SCOPE();
   GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
   location == -1 ? HAZEL_DEV_LOG_WARN("uniform doesn't exists: {}", name)
                  : (void)0;
@@ -189,6 +203,7 @@ void Shader::upload_uniform(const std::string &name, const glm::vec3 &vec) {
 }
 
 void Shader::upload_uniform(const std::string &name, const glm::vec4 &vec) {
+  TIMER_SCOPE();
   GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
   location == -1 ? HAZEL_DEV_LOG_WARN("uniform doesn't exists: {}", name)
                  : (void)0;
@@ -196,6 +211,7 @@ void Shader::upload_uniform(const std::string &name, const glm::vec4 &vec) {
 }
 
 void Shader::upload_uniform(const std::string &name, const glm::mat4 &mat) {
+  TIMER_SCOPE();
   GLint location = glGetUniformLocation(this->renderer_id, name.c_str());
   location == -1 ? HAZEL_DEV_LOG_WARN("uniform doesn't exists: {}", name)
                  : (void)0;

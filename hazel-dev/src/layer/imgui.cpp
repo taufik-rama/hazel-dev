@@ -53,12 +53,14 @@ void ImGui::on_detach() {
 }
 
 void ImGui::begin() {
+  TIMER_SCOPE();
   ::ImGui_ImplOpenGL3_NewFrame();
   ::ImGui_ImplGlfw_NewFrame();
   ::ImGui::NewFrame();
 }
 
 void ImGui::end() {
+  TIMER_SCOPE();
   ::ImGuiIO &io = ::ImGui::GetIO();
   auto app = hazel::core::Application::get_application();
   io.DisplaySize =

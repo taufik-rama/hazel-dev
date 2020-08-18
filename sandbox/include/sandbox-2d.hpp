@@ -19,8 +19,6 @@ public:
   virtual void on_imgui_render() override;
 
 private:
-  std::vector<timer_data> timers;
-
   glm::vec4 square_array = {0.2f, 0.3f, 0.8f, 1.0f};
 
   hazel::camera::OrthographicController camera_controller;

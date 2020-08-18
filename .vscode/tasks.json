@@ -36,6 +36,14 @@
             }
         },
         {
+            "label": "Run sandbox",
+            "type": "process",
+            "command": "./sandbox",
+            "options": {
+                "cwd": "sandbox/build"
+            }
+        },
+        {
             "label": "Format all",
             "type": "process",
             "command": "./format.sh",

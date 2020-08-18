@@ -13,6 +13,7 @@ namespace hazel::core {
 Application *Application::instance = nullptr;
 
 Application::Application() {
+  TIMER_SCOPE();
   assert(!Application::instance);
   Application::instance = this;
 
@@ -30,6 +31,7 @@ Application::Application() {
 }
 
 Application::~Application() {
+  TIMER_SCOPE();
   hazel::renderer::Renderer::shutdown();
   hazel::renderer::Renderer2D::shutdown();
 }
@@ -88,6 +90,7 @@ void Application::add_layer_overlay(hazel::layer::Layer *layer) {
 void Application::run() {
   this->is_running = true;
   while (this->is_running) {
+    TIMER_SCOPE();
     float time = glfwGetTime();
     hazel::core::Timestep ts(time - this->last_frame_duration);
     this->last_frame_duration = time;
@@ -96,13 +99,12 @@ void Application::run() {
       for (auto layer : *this->layers) {
         layer->on_update(ts);
       }
+      this->imgui->begin();
+      for (auto layer : *this->layers) {
+        layer->on_imgui_render();
+      }
+      this->imgui->end();
     }
-
-    this->imgui->begin();
-    for (auto layer : *this->layers) {
-      layer->on_imgui_render();
-    }
-    this->imgui->end();
 
     this->window->on_update();
   }

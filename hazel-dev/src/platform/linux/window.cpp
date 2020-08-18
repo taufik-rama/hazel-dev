@@ -28,6 +28,9 @@ Window::Window(const hazel::core::WindowProps &props) { this->init(props); }
 Window::~Window() { this->shutdown(); }
 
 void Window::init(const hazel::core::WindowProps &props) {
+
+  TIMER_SCOPE();
+
   // Since input are defined on different namespace, we cannot
   // inline its value
   hazel::input::Input::set_instance(new Input());
@@ -151,6 +154,7 @@ void Window::init(const hazel::core::WindowProps &props) {
 void Window::shutdown() { glfwDestroyWindow(this->window); }
 
 void Window::on_update() {
+  TIMER_SCOPE();
   glfwPollEvents();
   this->context->swap_buffers();
 }
