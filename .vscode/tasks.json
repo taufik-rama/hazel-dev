@@ -2,15 +2,11 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build all",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "Build hazel-dev",
-                "Build sandbox"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            "label": "Format all",
+            "type": "process",
+            "command": "./format.sh",
+            "options": {
+                "cwd": "scripts"
             }
         },
         {
@@ -22,12 +18,19 @@
                 "env": {
                     "CMAKE_GENERATOR": "Ninja",
                 }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
             }
         },
         {
             "label": "Build sandbox",
             "type": "shell",
             "command": "cmake .. && ninja",
+            "dependsOn": [
+                "Build hazel-dev"
+            ],
             "options": {
                 "cwd": "sandbox/build",
                 "env": {
@@ -39,17 +42,37 @@
             "label": "Run sandbox",
             "type": "process",
             "command": "./sandbox",
+            "dependsOn": [
+                "Build sandbox"
+            ],
             "options": {
                 "cwd": "sandbox/build"
             }
         },
         {
-            "label": "Format all",
-            "type": "process",
-            "command": "./format.sh",
+            "label": "Build flappy-ship",
+            "type": "shell",
+            "command": "cmake .. && ninja",
+            "dependsOn": [
+                "Build hazel-dev"
+            ],
             "options": {
-                "cwd": "scripts"
+                "cwd": "flappy-ship/build",
+                "env": {
+                    "CMAKE_GENERATOR": "Ninja",
+                }
             }
-        }
+        },
+        {
+            "label": "Run flappy-ship",
+            "type": "process",
+            "command": "./app",
+            "dependsOn": [
+                "Build flappy-ship"
+            ],
+            "options": {
+                "cwd": "flappy-ship/build"
+            }
+        },
     ]
 }

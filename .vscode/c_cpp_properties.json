@@ -4,13 +4,19 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/glad/include",
-                "${workspaceFolder}/glm",
+
+                "${workspaceFolder}/flappy-ship/include",
+
                 "${workspaceFolder}/hazel-dev/include",
-                "${workspaceFolder}/imgui",
                 "${workspaceFolder}/hazel-dev/vendor",
                 "${workspaceFolder}/hazel-dev/vendor/glfw/include",
-                "${workspaceFolder}/hazel-dev/vendor/spdlog/include"
+                "${workspaceFolder}/hazel-dev/vendor/spdlog/include",
+
+                "${workspaceFolder}/sandbox/include",
+
+                "${workspaceFolder}/glad/include",
+                "${workspaceFolder}/glm",
+                "${workspaceFolder}/imgui"
             ],
             "defines": [
                 "GLFW_INCLUDE_NONE",
