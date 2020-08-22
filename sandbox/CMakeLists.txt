@@ -21,11 +21,15 @@ target_include_directories(sandbox
     PRIVATE 
         "include/"
         "vendor/"
+
+        # Hazel API
         "../hazel-dev/include/"
-        "../hazel-dev/vendor/glfw/include/"
         "../hazel-dev/vendor/spdlog/include/"
+
+        # Math
         "../glm/"
-        "../glad/include/"
+
+        # Dear ImGUI
         "../imgui"
 )
 

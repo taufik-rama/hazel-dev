@@ -70,6 +70,7 @@ private:
   std::ofstream output_stream;
 };
 
+#ifdef HAZEL_DEBUG
 #define TIMER_SCOPE_NAME(name)                                                 \
   HAZEL_VARLINE(::hazel::trace::Timer timer)                                   \
   (name)
@@ -79,6 +80,10 @@ private:
 #define TIMER_SCOPE()                                                          \
   HAZEL_VARLINE(::hazel::trace::Timer timer)                                   \
   (__PRETTY_FUNCTION__)
+#else
+#define TIMER_SCOPE_NAME(name) (void)0
+#define TIMER_SCOPE() (void)0
+#endif
 
 struct timer_data {
   const char *name;

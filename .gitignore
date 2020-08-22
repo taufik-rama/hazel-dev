@@ -1,6 +1,1 @@
-glad/build/
-
-shazel-dev/vendor/
-hazel-dev/build/
-
-sandbox/build/
+**/build/

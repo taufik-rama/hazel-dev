@@ -173,4 +173,8 @@ unsigned short Window::get_height() const { return this->window_data.height; }
 void Window::set_event_callback(const EventCallbackFn &callback) {
   this->window_data.event_callback = callback;
 }
+
+void Window::set_title(const std::string &title) {
+  glfwSetWindowTitle(this->window, title.c_str());
+}
 } // namespace hazel::platform::linux

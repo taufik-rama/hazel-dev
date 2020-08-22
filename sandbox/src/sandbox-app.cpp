@@ -208,15 +208,15 @@ private:
 class Sandbox : public hazel::core::Application {
 public:
   Sandbox() {
-    this->add_layer(new ExampleLayer());
-    this->sandbox2D = new Sandbox2D();
-    // this->add_layer(this->sandbox2D);
+    // this->add_layer(new ExampleLayer());
+    this->sandbox2D = hazel::core::create_ref<Sandbox2D>();
+    this->add_layer(this->sandbox2D);
   }
 
-  ~Sandbox() { delete this->sandbox2D; }
+  ~Sandbox() {}
 
 private:
-  Sandbox2D *sandbox2D;
+  hazel::core::Ref<Sandbox2D> sandbox2D;
 };
 
 hazel::core::Scope<hazel::core::Application> hazel::core::create_application() {

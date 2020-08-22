@@ -38,5 +38,7 @@ public:
   static Window *create(const WindowProps &props = WindowProps());
 
   virtual void *get_native_window() const = 0;
+
+  virtual void set_title(const std::string &) = 0;
 };
 } // namespace hazel::core

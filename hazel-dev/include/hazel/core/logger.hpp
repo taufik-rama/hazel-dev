@@ -64,15 +64,15 @@ private:
   ::hazel::core::Logger::get_client_logger()->fatal(                           \
       HAZEL_LOG_FORMAT(fmt), __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 #else
-#define HAZEL_DEV_LOG_TRACE(fmt, ...)
-#define HAZEL_DEV_LOG_INFO(fmt, ...)
-#define HAZEL_DEV_LOG_WARN(fmt, ...)
-#define HAZEL_DEV_LOG_ERROR(fmt, ...)
-#define HAZEL_DEV_LOG_FATAL(fmt, ...)
+#define HAZEL_DEV_LOG_TRACE(fmt, ...) (void)0
+#define HAZEL_DEV_LOG_INFO(fmt, ...) (void)0
+#define HAZEL_DEV_LOG_WARN(fmt, ...) (void)0
+#define HAZEL_DEV_LOG_ERROR(fmt, ...) (void)0
+#define HAZEL_DEV_LOG_FATAL(fmt, ...) (void)0
 
-#define HAZEL_CLIENT_LOG_TRACE(fmt, ...)
-#define HAZEL_CLIENT_LOG_INFO(fmt, ...)
-#define HAZEL_CLIENT_LOG_WARN(fmt, ...)
-#define HAZEL_CLIENT_LOG_ERROR(fmt, ...)
-#define HAZEL_CLIENT_LOG_FATAL(fmt, ...)
+#define HAZEL_CLIENT_LOG_TRACE(fmt, ...) (void)0
+#define HAZEL_CLIENT_LOG_INFO(fmt, ...) (void)0
+#define HAZEL_CLIENT_LOG_WARN(fmt, ...) (void)0
+#define HAZEL_CLIENT_LOG_ERROR(fmt, ...) (void)0
+#define HAZEL_CLIENT_LOG_FATAL(fmt, ...) (void)0
 #endif

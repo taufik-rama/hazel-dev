@@ -26,6 +26,8 @@ public:
 
   virtual void *get_native_window() const override { return this->window; };
 
+  virtual void set_title(const std::string &);
+
 private:
   GLFWwindow *window;
 

@@ -97,5 +97,5 @@ add_compile_definitions(
     GLFW_INCLUDE_NONE
 
     # Debug mode
-    HAZEL_DEBUG
+    # HAZEL_DEBUG
 )

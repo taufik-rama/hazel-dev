@@ -8,22 +8,24 @@
 namespace hazel::layer {
 class Collection {
 public:
-  ~Collection();
+  void add(hazel::core::Ref<Layer>);
 
-  void add(Layer *);
+  void remove(hazel::core::Ref<Layer>);
 
-  void remove(Layer *);
+  void add_overlay(hazel::core::Ref<Layer>);
 
-  void add_overlay(Layer *);
+  void remove_overlay(hazel::core::Ref<Layer>);
 
-  void remove_overlay(Layer *);
+  std::vector<hazel::core::Ref<Layer>>::iterator begin() {
+    return this->layers.begin();
+  }
 
-  std::vector<Layer *>::iterator begin() { return this->layers.begin(); }
-
-  std::vector<Layer *>::iterator end() { return this->layers.end(); }
+  std::vector<hazel::core::Ref<Layer>>::iterator end() {
+    return this->layers.end();
+  }
 
 private:
-  std::vector<Layer *> layers;
+  std::vector<hazel::core::Ref<Layer>> layers;
   unsigned int current_layer = 0;
 };
 } // namespace hazel::layer

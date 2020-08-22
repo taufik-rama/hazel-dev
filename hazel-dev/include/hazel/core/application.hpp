@@ -16,9 +16,9 @@ public:
 
   void event_callback(hazel::event::Event &);
 
-  void add_layer(hazel::layer::Layer *);
+  void add_layer(hazel::core::Ref<hazel::layer::Layer>);
 
-  void add_layer_overlay(hazel::layer::Layer *);
+  void add_layer_overlay(hazel::core::Ref<hazel::layer::Layer>);
 
   static Application *get_application() { return instance; }
 
@@ -31,9 +31,9 @@ private:
 
   bool window_minimize_event_callback(hazel::event::WindowMinimizeEvent &);
 
-  Scope<Window> window;
-  hazel::layer::Collection *layers;
-  hazel::layer::ImGui *imgui;
+  Ref<Window> window;
+  Ref<hazel::layer::Collection> layers;
+  Ref<hazel::layer::ImGui> imgui;
 
   static Application *instance;
   bool is_running = true;

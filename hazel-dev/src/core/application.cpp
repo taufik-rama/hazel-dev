@@ -17,16 +17,16 @@ Application::Application() {
   assert(!Application::instance);
   Application::instance = this;
 
-  this->layers = new hazel::layer::Collection();
+  this->layers = hazel::core::create_ref<hazel::layer::Collection>();
 
-  this->window = Scope<Window>(Window::create());
+  this->window = hazel::core::Ref<Window>(Window::create());
   this->window->set_event_callback(
       EVENT_BIND_METHOD_1(Application::event_callback));
 
   hazel::renderer::Renderer::init();
   hazel::renderer::Renderer2D::init();
 
-  this->imgui = new hazel::layer::ImGui();
+  this->imgui = hazel::core::create_ref<hazel::layer::ImGui>();
   this->add_layer_overlay(this->imgui);
 }
 
@@ -77,12 +77,13 @@ bool Application::window_minimize_event_callback(
   return false;
 }
 
-void Application::add_layer(hazel::layer::Layer *layer) {
+void Application::add_layer(hazel::core::Ref<hazel::layer::Layer> layer) {
   this->layers->add(layer);
   layer->on_attach();
 }
 
-void Application::add_layer_overlay(hazel::layer::Layer *layer) {
+void Application::add_layer_overlay(
+    hazel::core::Ref<hazel::layer::Layer> layer) {
   this->layers->add_overlay(layer);
   layer->on_attach();
 }

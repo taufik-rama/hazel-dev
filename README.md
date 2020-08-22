@@ -18,7 +18,7 @@ Create the required directories
 
 #### `vscode` tasks
 
-- `ctrl + shift + p` -> `Tasks: Run Task` -> `Build all` -> Choose output scanner (optional, pick any)
+- `ctrl + shift + p` -> `Tasks: Run Task` -> `Run sandbox` -> Choose output scanner (optional, pick any)
 
 #### Command line
 

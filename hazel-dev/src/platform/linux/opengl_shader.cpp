@@ -29,7 +29,8 @@ std::string Shader::read_file(const std::string &filepath) {
 }
 
 std::unordered_map<GLenum, std::string>
-Shader::preprocess(const std::string &filepath, const std::string &contents) {
+Shader::preprocess([[maybe_unused]] const std::string &filepath,
+                   const std::string &contents) {
   TIMER_SCOPE();
   std::unordered_map<GLenum, std::string> sources;
 
